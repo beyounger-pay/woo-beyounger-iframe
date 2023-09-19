@@ -235,8 +235,8 @@ class By_Gateway extends WC_Payment_Gateway {
                 let publicKey = "";
                 let apiKey = '<?= $this->api_key; ?>';
                 console.log('===js===');
-                const tokenUrl = "https://api.sandbox.checkout.com/tokens";
-                const baseUrl = "https://api-sandbox.beyounger.com";
+                const tokenUrl = "https://api.checkout.com/tokens";
+                const baseUrl = "https://api.beyounger.com";
                 const publicKeyUrl = `${baseUrl}/v1/saas/checkout?apiKey=`+apiKey;
 
                 const getPublickKeyMethod = () => {

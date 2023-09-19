@@ -19,7 +19,7 @@ class ByPaymentRedirectController {
         $key = $gateway->api_key . '';
         $secret = $gateway->api_secret . '';
         $api_webhook = $gateway->api_webhook . '?wc-api=by_webhook'; //http://127.0.0.1/?wc-api=by_webhook
-        echo '000000003:' .$api_webhook . "\n";
+        //echo '000000003:' .$api_webhook . "\n";
 
         $customer = array(
             'email' => $order->get_billing_email(),
@@ -74,7 +74,7 @@ class ByPaymentRedirectController {
         $home_url = rtrim(str_replace('https://','',str_replace('http://','',$home_url)));
         preg_match('@^(?:https://)?([^/]+)@i',str_replace('www.','',$home_url), $matches);
         $memo = $matches[1] . '-' . $order->get_id() . "\n";
-        echo '000000004:' .$memo . "\n";
+        //echo '000000004:' .$memo . "\n";
 
 
         $post_data = array(
@@ -91,13 +91,13 @@ class ByPaymentRedirectController {
             'network' => $payType,
             'memo' => $memo,
         );
-        echo '000000004.2:' . "\n";
+        //echo '000000004.2:' . "\n";
         $order->set_transaction_id( $memo );
-        echo '000000004.3:' . "\n";
+        //echo '000000004.3:' . "\n";
 
         //$post_data = $sdk->formatArray($post_data);
-        echo '000000004.4:' . "\n";
-        echo '000000004.5:' . json_encode($post_data) . "\n";
+        //echo '000000004.4:' . "\n";
+        //echo '000000004.5:' . json_encode($post_data) . "\n";
 
 
         $requestPath = "/api/v1/payment";
@@ -112,7 +112,7 @@ class ByPaymentRedirectController {
         $result = $sdk->post($url, $requestPath, $post_data, $signatureData, $key, $timeStamp);
         //echo $post_data['cust_order_id'] . "\n";
 //        echo json_encode($order). "=====\n";;
-        echo '000000005:' .$result . "\n";
+        //echo '000000005:' .$result . "\n";
         $result = json_decode($result, true);
 
         if ( $result['code'] === 0 ) {
