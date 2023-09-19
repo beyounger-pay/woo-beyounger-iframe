@@ -132,36 +132,11 @@ class By_Gateway extends WC_Payment_Gateway {
      * @throws Exception
      */
     public function process_payment( $order_id ) {
-        echo '000000001' . "\n";
         WC()->session->set('beyounger_order', $order_id);
 
-
-//
-//        // Mark as on-hold (we're awaiting the cheque)
-        //$order->update_status('on-hold', __( 'Awaiting cheque payment', 'woocommerce' ));
-
         return $this->controller->payment($this, '');
-
-
     }
 
-//    function process_payment( $order_id ) {
-//       // global $woocommerce;
-//        $order = new WC_Order( $order_id );
-//        WC()->session->set('beyounger_order', $order_id);
-//        // Mark as on-hold (we're awaiting the cheque)
-//      //  $order->update_status('on-hold', __( 'Awaiting cheque payment', 'woocommerce' ));
-//
-//        // Remove cart
-//       // $woocommerce->cart->empty_cart();
-//
-//        // Return thankyou redirect
-//        return array(
-//            'result' => 'success',
-//            'redirect' => 'https://www.baidu.com',
-//            'payment_url' => "https://www.baidu2.com/",
-//        );
-//    }
 
     public function receipt_page($order_id)
     {
@@ -180,7 +155,6 @@ class By_Gateway extends WC_Payment_Gateway {
      * 自定义信用卡表格
      */
     public function payment_fields() {
-
         wp_enqueue_style( 'custom-css' ,  plugins_url( '/asset/style.css' , __FILE__ ));
 //        wp_enqueue_script('custom-gallery2', 'https://cdn.checkout.com/js/framesv2.min.js');
 //        wp_enqueue_script('custom-gallery', plugins_url('/asset/gallery.js', __FILE__));
@@ -259,10 +233,11 @@ class By_Gateway extends WC_Payment_Gateway {
                 let err = true;
                 let loading = false;
                 let publicKey = "";
+                let apiKey = '<?= $this->api_key; ?>';
                 console.log('===js===');
                 const tokenUrl = "https://api.sandbox.checkout.com/tokens";
                 const baseUrl = "https://api-sandbox.beyounger.com";
-                const publicKeyUrl = `${baseUrl}/v1/saas/checkout?apiKey=d73d82c2801b47c8b5247ad9344d5711`;
+                const publicKeyUrl = `${baseUrl}/v1/saas/checkout?apiKey=`+apiKey;
 
                 const getPublickKeyMethod = () => {
                     return new Promise(function (resolve, reject) {
@@ -380,7 +355,6 @@ class By_Gateway extends WC_Payment_Gateway {
                 const submitResult = (token) => {
                     document.getElementById("api_err_msg").innerText = "";
                     document.getElementById("js_var").value = token;
-                    console.log("token拿到了:"+token);
                     document.getElementById("place_order").click()
                 };
 

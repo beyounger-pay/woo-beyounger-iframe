@@ -1,15 +1,15 @@
 <?php
 
-use By\Gateways\By_Gateway;
+use By\Gateways\Inst_Visa_Gateway;
 
-class ByPaymentController {
+class ByPaymentRedirectController {
+
 
     /**
      * @throws Exception
      */
     public function payment($gateway, $payType) {
         $orderId = (int)WC()->session->get('beyounger_order');
-
         $order = wc_get_order($orderId);
         if (empty($order)) {
             throw new Exception('Order not found: ' . $orderId);
@@ -18,7 +18,8 @@ class ByPaymentController {
         $url = $gateway->domain . '';
         $key = $gateway->api_key . '';
         $secret = $gateway->api_secret . '';
-        //$api_webhook = $gateway->api_webhook . '?wc-api=by_webhook'; //http://127.0.0.1/?wc-api=by_webhook
+        $api_webhook = $gateway->api_webhook . '?wc-api=by_webhook'; //http://127.0.0.1/?wc-api=by_webhook
+        echo '000000003:' .$api_webhook . "\n";
 
         $customer = array(
             'email' => $order->get_billing_email(),
@@ -73,6 +74,7 @@ class ByPaymentController {
         $home_url = rtrim(str_replace('https://','',str_replace('http://','',$home_url)));
         preg_match('@^(?:https://)?([^/]+)@i',str_replace('www.','',$home_url), $matches);
         $memo = $matches[1] . '-' . $order->get_id() . "\n";
+        echo '000000004:' .$memo . "\n";
 
 
         $post_data = array(
@@ -89,72 +91,54 @@ class ByPaymentController {
             'network' => $payType,
             'memo' => $memo,
         );
+        echo '000000004.2:' . "\n";
         $order->set_transaction_id( $memo );
+        echo '000000004.3:' . "\n";
 
         //$post_data = $sdk->formatArray($post_data);
+        echo '000000004.4:' . "\n";
+        echo '000000004.5:' . json_encode($post_data) . "\n";
+
 
         $requestPath = "/api/v1/payment";
         $timeStamp = round(microtime(true) * 1000);
         $signatureData = $key .
-        "&" . $post_data['cust_order_id'] .
-        "&" . $post_data['amount'] .
-        "&" . $post_data['currency'] .
-        "&" . $secret .
-        "&" . $timeStamp;
+            "&" . $post_data['cust_order_id'] .
+            "&" . $post_data['amount'] .
+            "&" . $post_data['currency'] .
+            "&" . $secret .
+            "&" . $timeStamp;
 
         $result = $sdk->post($url, $requestPath, $post_data, $signatureData, $key, $timeStamp);
         //echo $post_data['cust_order_id'] . "\n";
 //        echo json_encode($order). "=====\n";;
+        echo '000000005:' .$result . "\n";
         $result = json_decode($result, true);
+
         if ( $result['code'] === 0 ) {
 
-//            // 给客户的一些备注（用false代替true使其变为私有）
-//            $order->add_order_note( 'Payment is processing on ' . $result['result']['redirect_url'], true );
-//
-//            // 空购物车
-//            //WC()->cart->empty_cart();
-//
+            // 给客户的一些备注（用false代替true使其变为私有）
+            $order->add_order_note( 'Payment is processing on ' . $result['result']['redirect_url'], true );
 
-            $token = $_POST['js_var'];
-            $channelPaymentParam = array(
-                'id' => $result['result']['order_id'],
-                'tokenization' => $token,
-            );
-            $channelPaymentPath  = "/v1/channel/payment";
-            $channelPaymentTimeStamp = round(microtime(true) * 1000);
-            $channelPaymentSignatureData = $key .
-                "&" . $secret .
-                "&" . $timeStamp;
+            // 空购物车
+            WC()->cart->empty_cart();
 
-            $channelPaymentResult = $sdk->simplePost($url,
-                $channelPaymentPath,
-                $channelPaymentParam,
-                $channelPaymentSignatureData,
-                $key,
-                $channelPaymentTimeStamp);
-            $channelPaymentResult = json_decode($channelPaymentResult, true);
-            echo "支付结果: " . $channelPaymentResult . "\n";
-
-//            [
-//            {"result":"failure","messages":"","refresh":false,"reload":false},
-//
-//            {"code":0,"msg":"SUCCESS","result":{"order_no":"23091510341415492","status":1,"msg":"支付成功","front_url":null,"acs_url":null,"creq":null}}
-//            ]
-
-            if ( $channelPaymentResult['code'] === 0 and $channelPaymentResult['result']['status'] === 1) {
-                $order->update_status('processing', 'processing. (By Webhook)');
+//            echo $result['result']['redirect_url'] . "\n";
+            // 重定向，根据配置决定跳转到receipt_page(iframe)还是支付页面
+//            echo 'iframe?:' . $gateway->iframe . "\n";
+            if ($gateway->iframe === 'yes') {
+//                echo 'iframe:' . $result['result']['redirect_url'] . "\n";
+                update_post_meta($orderId, 'by_url', $result['result']['redirect_url']);
                 return array(
                     'result' => 'success',
-                    'redirect' => $gateway -> get_return_url($order),
-                    //'redirect' => wc_get_endpoint_url( 'order-received', '', wc_get_checkout_url() ),
-                    //'redirect' => $order->get_checkout_order_received_url(),
-                    //'redirect' => $result['result']['redirect_url'],
+                    'redirect' => $order->get_checkout_payment_url(true),
+                    'payment_url' => $result['result']['redirect_url'],
                 );
-
-            } else{
-                $order->update_status('failed', 'Failed. (By Webhook)');
+            } else {
+//                echo 'redirect:' . $result['result']['redirect_url'] . "\n";
                 return array(
-                    'result' => 'error',
+                    'result' => 'success',
+                    'redirect' => $result['result']['redirect_url'],
                 );
             }
 
@@ -235,6 +219,5 @@ class ByPaymentController {
             die;
         }
     }
-
 
 }

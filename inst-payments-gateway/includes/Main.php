@@ -3,7 +3,8 @@
 namespace By;
 
 use By\Gateways\By_Gateway;
-use ByPaymentController;
+use By\Gateways\By_Redirect_Gateway;
+use ByPaymentRedirectController;
 
 class Main
 {
@@ -27,7 +28,7 @@ class Main
     public function registerEvents()
     {
         add_filter('woocommerce_payment_gateways', [$this, 'addPaymentGateways']);
-        add_action('woocommerce_api_' . self::ROUTE_WEBHOOK, [new ByPaymentController, 'webhook']);
+        add_action('woocommerce_api_' . self::ROUTE_WEBHOOK, [new ByPaymentRedirectController, 'webhook']);
     }
 
     /**
@@ -36,6 +37,7 @@ class Main
     public function addPaymentGateways($gateways)
     {
         $gateways[] = By_Gateway::class;
+        $gateways[] = By_Redirect_Gateway::class;
         return $gateways;
     }
 }
