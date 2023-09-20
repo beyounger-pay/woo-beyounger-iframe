@@ -1,4 +1,4 @@
-const loadJS = (url, callback) => {
+var loadJS = (url, callback) => {
     var script = document.createElement('script');
     var fn = callback || function () {
     };
@@ -24,10 +24,15 @@ const loadJS = (url, callback) => {
 let err = true;
 let loading = false;
 let publicKey = "";
-console.log('===js===');
-const tokenUrl = "https://api.sandbox.checkout.com/tokens";
-const baseUrl = "https://api-sandbox.beyounger.com";
-const publicKeyUrl = `${baseUrl}/v1/checkout?id=23090805000915505`;
+//let apiKey = '<?= $this->api_key; ?>';
+
+console.log('===lh===',plugin_name_ajax_object.var_api_key);
+let apiKey = 'd73d82c2801b47c8b5247ad9344d5711';
+
+console.log('===js===',apiKey);
+const tokenUrl = "https://api.checkout.com/tokens";
+const baseUrl = "https://api.beyounger.com";
+const publicKeyUrl = `${baseUrl}/v1/saas/checkout?apiKey=`+apiKey;
 
 const getPublickKeyMethod = () => {
     return new Promise(function (resolve, reject) {
@@ -106,15 +111,8 @@ const addEventHandler = () => {
     });
 };
 
-getPublickKeyMethod().then((res) => {
-    console.log(res);
-    publicKey = "pk_sbox_m3dhzcsbmlxmnqypu6zii5j5nec";
-});
-
 const initCard = () => {
-    console.log('initCard', 11111);
     if (publicKey) {
-        console.log('initCard', publicKey);
         Frames.init({
             publicKey: publicKey,
             localization: {
@@ -128,7 +126,7 @@ const initCard = () => {
     } else {
         getPublickKeyMethod().then((res) => {
             console.log(res);
-            publicKey = "pk_sbox_m3dhzcsbmlxmnqypu6zii5j5nec";
+            publicKey = res.result.api_key
 
             Frames.init({
                 publicKey: publicKey,
@@ -146,20 +144,27 @@ const initCard = () => {
 
 const submitResult = (token) => {
     document.getElementById("api_err_msg").innerText = "";
-    console.log(token);
+    loading = false;
+    document.getElementById("pay-button").disabled = false;
+    document.getElementById("pay-button").innerText = "Pay";
+    Frames.enableSubmitForm();
+    document.getElementById("js_var").value = token;
+    document.getElementById("place_order").click()
 };
 
 function submitCard(e) {
-    e.preventDefault();
+    // e.preventDefault();
     if (loading) {
         return;
     }
 
     console.log("err", err);
     if (err) {
+        document.getElementById("api_err_msg").innerText = "请填写信息";
         console.log("err");
         return;
     }
+    document.getElementById("api_err_msg").innerText = "";
     loading = true;
     document.getElementById("pay-button").disabled = true;
     document.getElementById("pay-button").innerText = "Loading";
@@ -167,7 +172,18 @@ function submitCard(e) {
 }
 
 
+getPublickKeyMethod().then((res) => {
+    console.log(res);
+    publicKey = res.result.api_key
+});
+console.log('load------js')
 
+loadJS("https://cdn.checkout.com/js/framesv2.min.js", () => {
+    console.log("js load");
+    initCard();
+});
 
-
-
+// document.getElementById("my_place_order").addEventListener('click',(e)=>{
+//     console.log('触发place_order')
+//     submitCard(e)
+// })

@@ -43,7 +43,7 @@ class By_Gateway extends WC_Payment_Gateway {
 //        add_action( 'wp_enqueue_scripts'. $this->id, [$this, 'payment_scripts'] );//payment_scripts
         add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
         add_action( 'woocommerce_receipt_' . $this->id, [$this, 'receipt_page']);
-       // apply_filters( 'wp_doing_ajax', true );
+        // apply_filters( 'wp_doing_ajax', true );
 
         $this->controller = new ByPaymentController;
 
@@ -143,7 +143,7 @@ class By_Gateway extends WC_Payment_Gateway {
         $by_url = get_post_meta($order_id, 'by_url', true);
         ?>
         <iframe
-            src='<?= $by_url; ?>' height='795' width=100% frameBorder='0' id="new_iframe">
+                src='<?= $by_url; ?>' height='795' width=100% frameBorder='0' id="new_iframe">
         </iframe>
         <?php
     }
@@ -157,7 +157,14 @@ class By_Gateway extends WC_Payment_Gateway {
     public function payment_fields() {
         wp_enqueue_style( 'custom-css' ,  plugins_url( '/asset/style.css' , __FILE__ ));
 //        wp_enqueue_script('custom-gallery2', 'https://cdn.checkout.com/js/framesv2.min.js');
-//        wp_enqueue_script('custom-gallery', plugins_url('/asset/gallery.js', __FILE__));
+        wp_enqueue_script('custom-load', plugins_url('/asset/load.js', __FILE__), [], null, true);
+
+        wp_localize_script( 'custom-load', 'plugin_name_ajax_object',
+            array(
+                'var_api_key'=> $this->api_key,
+            )
+        );
+
         ?>
 
         <div class="currencyContainer">
@@ -223,199 +230,14 @@ class By_Gateway extends WC_Payment_Gateway {
                 <input type="hidden" name="js_var" id="js_var" value="">
                 <button  type="button" class="button alt wp-element-button" name="woocommerce_checkout_place_order" id="my_place_order"> Place order</button>
             </div>
-            <script>
-
-                const loadJS = (url, callback) => {
-                    var script = document.createElement('script');
-                    var fn = callback || function () {
-                    };
-                    script.type = 'text/javascript';
-
-                    // IE
-                    if (script.readyState) {
-                        script.onreadystatechange = function () {
-                            if (script.readyState === 'loaded' || script.readyState === 'complete') {
-                                script.onreadystatechange = null;
-                                fn();
-                            }
-                        };
-                    } else {
-                        //其他浏览器
-                        script.onload = function () {
-                            fn();
-                        };
-                    }
-                    script.src = url;
-                    document.getElementsByTagName('head')[0].appendChild(script);
-                }
-                let err = true;
-                let loading = false;
-                let publicKey = "";
-                let apiKey = '<?= $this->api_key; ?>';
-                console.log('===js===');
-                const tokenUrl = "https://api.checkout.com/tokens";
-                const baseUrl = "https://api.beyounger.com";
-                const publicKeyUrl = `${baseUrl}/v1/saas/checkout?apiKey=`+apiKey;
-
-                const getPublickKeyMethod = () => {
-                    return new Promise(function (resolve, reject) {
-                        fetch(publicKeyUrl, {
-                            method: "GET", // *GET, POST, PUT, DELETE, etc.
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                        })
-                            .then((response) => response.json())
-                            .then((result) => {
-                                console.log("Success:", result);
-                                resolve(result);
-                            })
-                            .catch((error) => {
-                                console.error("Error:", error);
-                                reject(error);
-                            });
-                    });
-                };
-
-                const addEventHandler = () => {
-                    Frames.addEventHandler(
-                        Frames.Events.FRAME_VALIDATION_CHANGED,
-                        (event) => {
-                            var e = event.element;
-                            console.log("Frames.Events.FRAME_VALIDATION_CHANGED", e);
-                            document.getElementById("api_err_msg").innerText = "";
-                            if (event.isValid || event.isEmpty) {
-                                if (e === "card-number" && !event.isEmpty) {
-                                    document.getElementById("card_err_msg").innerText = "";
-                                } else if (e === "expiry-date") {
-                                    document.getElementById("date_err_msg").innerText = "";
-                                } else if (e === "cvv") {
-                                    document.getElementById("cvv_err_msg").innerText = "";
-                                }
-                            } else {
-                                if (e === "card-number") {
-                                    let msg = "Please enter a valid card number";
-                                    document.getElementById("card_err_msg").innerText = msg;
-                                    err = false;
-                                } else if (e === "expiry-date") {
-                                    let msg = "Please enter a valid expiry date";
-                                    document.getElementById("date_err_msg").innerText = msg;
-                                } else if (e === "cvv") {
-                                    let msg = "Please enter a valid cvv code";
-                                    document.getElementById("cvv_err_msg").innerText = msg;
-                                    err = false;
-                                }
-                            }
-                        }
-                    );
-
-                    function onCardTokenizationFailed(error) {
-                        console.log("CARD_TOKENIZATION_FAILED: %o", error);
-                        loading = false;
-                        document.getElementById("pay-button").disabled = false;
-                        document.getElementById("pay-button").innerText = "Pay";
-                        Frames.enableSubmitForm();
-                    }
-
-                    Frames.addEventHandler(Frames.Events.CARD_VALIDATION_CHANGED, () => {
-                        console.log("!Frames.isCardValid", !Frames.isCardValid());
-                        document.getElementById("pay-button").disabled =
-                            !Frames.isCardValid();
-                        err = !Frames.isCardValid();
-                    });
-
-                    Frames.addEventHandler(
-                        Frames.Events.CARD_TOKENIZATION_FAILED,
-                        onCardTokenizationFailed
-                    );
-                    Frames.addEventHandler(Frames.Events.CARD_TOKENIZED, (event) => {
-                        console.log("event.token", event.token);
-                        submitResult(event.token);
-                    });
-                };
-
-                getPublickKeyMethod().then((res) => {
-                    console.log(res);
-                    publicKey = res.result.api_key
-                });
-
-                const initCard = () => {
-                    if (publicKey) {
-                        Frames.init({
-                            publicKey: publicKey,
-                            localization: {
-                                cardNumberPlaceholder: "Card number",
-                                expiryMonthPlaceholder: "MM",
-                                expiryYearPlaceholder: "YY",
-                                cvvPlaceholder: "CVV",
-                            },
-                        });
-                        addEventHandler();
-                    } else {
-                        getPublickKeyMethod().then((res) => {
-                            console.log(res);
-                            publicKey = res.result.api_key
-
-                            Frames.init({
-                                publicKey: publicKey,
-                                localization: {
-                                    cardNumberPlaceholder: "Card number",
-                                    expiryMonthPlaceholder: "MM",
-                                    expiryYearPlaceholder: "YY",
-                                    cvvPlaceholder: "CVV",
-                                },
-                            });
-                            addEventHandler();
-                        });
-                    }
-                };
-
-                const submitResult = (token) => {
-                    document.getElementById("api_err_msg").innerText = "";
-                    loading = false;
-                    document.getElementById("pay-button").disabled = false;
-                    document.getElementById("pay-button").innerText = "Pay";
-                    Frames.enableSubmitForm();
-                    document.getElementById("js_var").value = token;
-                    document.getElementById("place_order").click()
-                };
-
-                function submitCard(e) {
-                    // e.preventDefault();
-                    if (loading) {
-                        return;
-                    }
-
-                    console.log("err", err);
-                    if (err) {
-                        document.getElementById("api_err_msg").innerText = "请填写信息";
-                        console.log("err");
-                        return;
-                    }
-                    document.getElementById("api_err_msg").innerText = "";
-                    loading = true;
-                    document.getElementById("pay-button").disabled = true;
-                    document.getElementById("pay-button").innerText = "Loading";
-                    Frames.submitCard();
-                }
-
-                // document.getElementById("place_order").onclick = function (e) {
-                //     console.log('触发place_order')
-                //     submitCard(e)
-                // };
-                document.getElementById("my_place_order").addEventListener('click',(e)=>{
-                    console.log('触发place_order')
-                    submitCard(e)
-                })
-
-            </script>
-            <script>
-                loadJS("https://cdn.checkout.com/js/framesv2.min.js", () => {
-                    console.log("js load");
-                    initCard();
-                });
-            </script>
         </div>
+
+        <script>
+            document.getElementById("my_place_order").addEventListener('click',(e)=>{
+                console.log('触发place_order')
+                submitCard(e)
+            })
+        </script>
 
         <?php
 
