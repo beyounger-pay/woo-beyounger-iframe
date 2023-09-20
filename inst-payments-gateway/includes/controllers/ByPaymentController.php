@@ -155,7 +155,7 @@ class ByPaymentController {
 //                return array(
 //                    'result' => 'error',
 //                );
-                wc_add_notice(  'Payment failed, Please try another card.', 'error' );
+                wc_add_notice(  'Payment failed '. $channelPaymentResult['msg'], 'error' );
                 return array(
                     'result' => 'error',
                     //'redirect' => $gateway -> get_return_url($order),
