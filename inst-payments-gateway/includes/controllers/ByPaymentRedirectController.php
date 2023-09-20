@@ -97,7 +97,6 @@ class ByPaymentRedirectController {
 
         //$post_data = $sdk->formatArray($post_data);
         //echo '000000004.4:' . "\n";
-        //echo '000000004.5:' . json_encode($post_data) . "\n";
 
 
         $requestPath = "/api/v1/payment";
@@ -131,8 +130,8 @@ class ByPaymentRedirectController {
                 update_post_meta($orderId, 'by_url', $result['result']['redirect_url']);
                 return array(
                     'result' => 'success',
-                    'redirect' => $order->get_checkout_payment_url(true),
-                    'payment_url' => $result['result']['redirect_url'],
+                    'redirect' => $order->get_checkout_payment_url(true), //http://demo6.local/checkout/order-pay/33/?key=wc_order_no9c1aCayjdop
+                    'payment_url' => $result['result']['redirect_url'], //https://api-sandbox.beyounger.com/v1/checkoutFrom/?id=23092003532811514
                 );
             } else {
 //                echo 'redirect:' . $result['result']['redirect_url'] . "\n";

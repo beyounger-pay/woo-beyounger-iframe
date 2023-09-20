@@ -107,7 +107,6 @@ class ByPaymentController {
 //        echo json_encode($order). "=====\n";;
         $result = json_decode($result, true);
         if ( $result['code'] === 0 ) {
-
 //            // 给客户的一些备注（用false代替true使其变为私有）
 //            $order->add_order_note( 'Payment is processing on ' . $result['result']['redirect_url'], true );
 //
@@ -133,7 +132,7 @@ class ByPaymentController {
                 $key,
                 $channelPaymentTimeStamp);
             $channelPaymentResult = json_decode($channelPaymentResult, true);
-            echo "支付结果: " . $channelPaymentResult . "\n";
+            echo "$channelPaymentResult: " . $channelPaymentResult . "\n";
 
 //            [
 //            {"result":"failure","messages":"","refresh":false,"reload":false},
@@ -152,9 +151,15 @@ class ByPaymentController {
                 );
 
             } else{
-                $order->update_status('failed', 'Failed. (By Webhook)');
+//                $order->update_status('failed', 'Failed. (By Webhook)');
+//                return array(
+//                    'result' => 'error',
+//                );
+                wc_add_notice(  'Payment failed, Please try another card.', 'error' );
                 return array(
                     'result' => 'error',
+                    //'redirect' => $gateway -> get_return_url($order),
+
                 );
             }
 

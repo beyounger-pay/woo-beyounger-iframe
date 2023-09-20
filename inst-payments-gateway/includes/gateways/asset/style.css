@@ -23,10 +23,12 @@ details ::-moz-list-bullet {
  }
 .frame--activated {
     opacity: 1;
-    border: solid 1px rgb(0, 69, 255, 0.75);
+    /*border: solid 1px rgb(0, 69, 255, 0.75);*/
     border-radius: 3px;
     padding-left: 10px;
-    box-shadow: 0 1px 3px 0 rgba(0, 69, 255, 0.2);
+    /*box-shadow: 0 1px 3px 0 rgba(0, 69, 255, 0.2);*/
+    border: solid 1px rgb(19, 57, 94);
+    box-shadow: 0 1px 3px 0 rgba(220, 220, 220, 0.2);
 }
 .input-container.expiry-date {
     margin-right: 8px;
@@ -156,4 +158,18 @@ summary {
 
     #my_place_order{
       margin-top: 100px;
+    }
+
+
+    .wrap{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+    }
+    .visa{
+        margin-right: 20px;
+    }
+    .master{
+        margin-right: 10px;
     }
