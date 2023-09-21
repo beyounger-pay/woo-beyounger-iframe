@@ -234,6 +234,7 @@ class By_Gateway extends WC_Payment_Gateway {
 
         <script>
             document.getElementById("my_place_order").addEventListener('click',(e)=>{
+                document.getElementById("js_var").value = '';
                 console.log('触发place_order')
                 submitCard(e)
             })
