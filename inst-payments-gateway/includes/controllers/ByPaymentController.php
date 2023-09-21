@@ -72,8 +72,8 @@ class ByPaymentController {
         $home_url = home_url();
         $home_url = rtrim(str_replace('https://','',str_replace('http://','',$home_url)));
         preg_match('@^(?:https://)?([^/]+)@i',str_replace('www.','',$home_url), $matches);
-        $memo = $matches[1] . '-' . $order->get_id() . "\n";
-
+        $memo = $order->get_id();
+        $website = $matches[1];
 
         $post_data = array(
             'currency' => $order->get_currency(),
@@ -82,14 +82,14 @@ class ByPaymentController {
             'customer' => $customer,
             'payment_method' => 'creditcard',
 //            'notification_url' => '',
-//            'product_info' => $product_info,
 //            'shipping_info' => $shipping_info,
             'cart_items' => $cart_items,
             'return_url' => $order->get_view_order_url(),
             'network' => $payType,
+            'website'  => $website,
             'memo' => $memo,
         );
-        $order->set_transaction_id( $memo );
+        //$order->set_transaction_id( $memo );
 
         //$post_data = $sdk->formatArray($post_data);
 
@@ -112,7 +112,7 @@ class ByPaymentController {
 //
 //            // 空购物车
 //            //WC()->cart->empty_cart();
-//
+            $order->set_transaction_id($result['result']['order_id']);
 
             $token = $_POST['js_var'];
             $channelPaymentParam = array(

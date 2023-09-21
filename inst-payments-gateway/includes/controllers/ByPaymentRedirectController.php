@@ -73,8 +73,9 @@ class ByPaymentRedirectController {
         $home_url = home_url();
         $home_url = rtrim(str_replace('https://','',str_replace('http://','',$home_url)));
         preg_match('@^(?:https://)?([^/]+)@i',str_replace('www.','',$home_url), $matches);
-        $memo = $matches[1] . '-' . $order->get_id() . "\n";
+        $memo = $order->get_id();
         //echo '000000004:' .$memo . "\n";
+        $website = $matches[1];
 
 
         $post_data = array(
@@ -84,15 +85,15 @@ class ByPaymentRedirectController {
             'customer' => $customer,
             'payment_method' => 'creditcard',
 //            'notification_url' => '',
-//            'product_info' => $product_info,
 //            'shipping_info' => $shipping_info,
             'cart_items' => $cart_items,
             'return_url' => $order->get_view_order_url(),
             'network' => $payType,
+            'website'  => $website,
             'memo' => $memo,
         );
         //echo '000000004.2:' . "\n";
-        $order->set_transaction_id( $memo );
+        //$order->set_transaction_id( $memo );
         //echo '000000004.3:' . "\n";
 
         //$post_data = $sdk->formatArray($post_data);
@@ -118,6 +119,8 @@ class ByPaymentRedirectController {
 
             // 给客户的一些备注（用false代替true使其变为私有）
             $order->add_order_note( 'Payment is processing on ' . $result['result']['redirect_url'], true );
+            $order->set_transaction_id($result['result']['order_id']);
+
 
             // 空购物车
             WC()->cart->empty_cart();

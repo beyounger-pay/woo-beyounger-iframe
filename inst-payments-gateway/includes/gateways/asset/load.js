@@ -26,12 +26,12 @@ let loading = false;
 let publicKey = "";
 //let apiKey = '<?= $this->api_key; ?>';
 
-console.log('===lh===',plugin_name_ajax_object.var_api_key);
-let apiKey = 'd73d82c2801b47c8b5247ad9344d5711';
+console.log('===var_api_key===',plugin_name_ajax_object.var_api_key);
+let apiKey = plugin_name_ajax_object.var_api_key;
 
 console.log('===js===',apiKey);
-const tokenUrl = "https://api.checkout.com/tokens";
-const baseUrl = "https://api.beyounger.com";
+const tokenUrl = "https://api.checkout.com/tokens"; //https://api.sandbox.checkout.com/tokens
+const baseUrl = "https://api.beyounger.com"; //https://api-sandbox.beyounger.com
 const publicKeyUrl = `${baseUrl}/v1/saas/checkout?apiKey=`+apiKey;
 
 const getPublickKeyMethod = () => {
