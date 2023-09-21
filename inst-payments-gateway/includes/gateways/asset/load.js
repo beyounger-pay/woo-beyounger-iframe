@@ -148,6 +148,9 @@ const submitResult = (token) => {
     document.getElementById("pay-button").disabled = false;
     document.getElementById("pay-button").innerText = "Pay";
     Frames.enableSubmitForm();
+    if(!token){
+        return;
+    }
     document.getElementById("js_var").value = token;
     document.getElementById("place_order").click()
 };
