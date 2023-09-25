@@ -75,6 +75,25 @@ class ByPaymentController {
         $memo = $order->get_id();
         $website = $matches[1];
 
+
+        $userIP = ($_SERVER["HTTP_VIA"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $_SERVER["REMOTE_ADDR"];
+        $userIP = ($userIP) ? $userIP : $_SERVER["REMOTE_ADDR"];
+
+        // WordPress 使用 CDN 后获取访客真实 IP
+        $_IP = '';
+        if( !empty($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
+            $get_HTTP_X_FORWARDED_FOR = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            $_IP= trim($get_HTTP_X_FORWARDED_FOR[0]);
+        }
+
+        $user_ip=$_SERVER["HTTP_X_FORWARDED_FOR"];
+        if ($user_ip=="")
+        {
+            $user_ip=$_SERVER["REMOTE_ADDR"];
+        }
+        $customer_ip = $userIP.'|'.$_IP.'|'.$user_ip;
+        echo '000000004:'.$customer_ip."\n";
+
         $post_data = array(
             'currency' => $order->get_currency(),
             'amount' => $order->get_total(),
@@ -88,6 +107,7 @@ class ByPaymentController {
             'network' => $payType,
             'website'  => $website,
             'memo' => $memo,
+            'ip' => ($_IP) ? $_IP : $userIP,
         );
         //$order->set_transaction_id( $memo );
 
