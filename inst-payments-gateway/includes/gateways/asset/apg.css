@@ -1,0 +1,135 @@
+#payModel {
+    box-sizing: border-box;
+    width: 500px;
+    font-size: 16px;
+    font-weight: 300;
+    color: #424242;
+    position: relative;
+}
+.itemCard {
+    margin-top: 10px;
+}
+.payForm .payForm-item {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.cicle {
+    display: none;
+}
+.payForm .payForm-item .payInput {
+    width: 100%;
+    margin-top: 8px;
+}
+.payForm .payForm-item .payTime {
+    width: 100%;
+    margin-top: 8px;
+}
+.payForm .payForm-item .payInput_width {
+    width: 80%;
+    display: flex;
+    margin-top: 10px;
+}
+.payForm .payForm-item .payInput_width .payInput {
+    width: 80%;
+}
+
+.payForm .payForm-item .payInput {
+    padding: 0;
+    margin: 0;
+    height: 40px;
+    background: rgba(0, 0, 0, 0);
+    border-radius: 4px;
+    padding-left: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #13395e;
+    font-family: monospace;
+    width: 100%;
+}
+
+.payForm .payForm-item .payLabel {
+    display: block;
+    height: 10px;
+    color: #13395e;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 10px;
+    margin: 8px 0;
+}
+.payForm .payForm-item .message {
+    font-size: 14px;
+    color: rgba(255, 0, 0, 0.6);
+    font-weight: 500;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.payForm .payForm-item .payLabel,
+.payForm .payForm-item .message {
+    width: 100%;
+}
+.payHead {
+    width: 500px;
+    /*width: auto;*/
+}
+
+.currencyContainer {
+    /* width: 355px; */
+    max-width: 100%;
+    /*margin: auto;*/
+    margin-top: 20px;
+    margin-right: 1em;
+    border-radius: 20px;
+    background-color: #fff;
+    padding: 30px;
+    padding-top: 0;
+    /*padding-left: 0;*/
+    /*box-shadow: 0px 40px 40px 40px rgba(0, 69, 255, 0.06);*/
+    position: relative;
+    min-height: 420px;
+    box-sizing: border-box;
+}
+.pay-button {
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: none;
+    color: #fff;
+    width: calc(100%);
+    width: 340px;
+    text-align: center;
+    font-size: 14px;
+    height: 100%;
+    line-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(0, 69, 255, 0.75);
+    height: 40px;
+
+}
+.pay-button:disabled {
+    background-color: rgb(0, 69, 255, 0.2);
+    cursor: not-allowed;
+}
+
+.payForm .payForm-item .payTime .paySelect {
+    padding: 0;
+    margin: 0;
+    height: 40px;
+    background: rgba(0, 0, 0, 0);
+    border-radius: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #13395e;
+    font-family: monospace;
+    width: 100%;
+}
+
+#place_order{
+    /*display: none;*/
+}

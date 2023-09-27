@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
+    />
+    <title>Beyounger</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/js-sha512/0.8.0/sha512.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.27.2/axios.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jsencrypt/3.2.1/jsencrypt.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+    <script src="./apg-payment-sdk/paymentInline-other.min.js"></script>
+    <link rel="stylesheet" href="./apg-payment-sdk/assets/styles/paymentForm.css" />
+
+    <link
+      rel="stylesheet"
+      href="./apg-payment-sdk/assets/styles/paymentGlobal.css"
+    />
+    <link rel="stylesheet" href="./apg-payment-sdk/fonts/iconfont.css" />
+    <style>
+      #payModel {
+        box-sizing: border-box;
+        width: auto;
+        font-size: 16px;
+        font-weight: 300;
+        color: #424242;
+        position: relative;
+      }
+      .itemCard {
+        margin-top: 10px;
+      }
+      .payForm .payForm-item {
+        width: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
+      .cicle {
+        display: none;
+      }
+      .payForm .payForm-item .payInput {
+        width: 100%;
+        margin-top: 8px;
+      }
+      .payForm .payForm-item .payTime {
+        width: 100%;
+        margin-top: 8px;
+      }
+      .payForm .payForm-item .payInput_width {
+        width: 80%;
+        display: flex;
+        margin-top: 10px;
+      }
+      .payForm .payForm-item .payInput_width .payInput {
+        width: 80%;
+      }
+
+      .payForm .payForm-item .payInput {
+        padding: 0;
+        margin: 0;
+        height: 40px;
+        background: rgba(0, 0, 0, 0);
+        border-radius: 4px;
+        padding-left: 10px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #13395e;
+        font-family: monospace;
+        width: 100%;
+      }
+
+      .payForm .payForm-item .payLabel {
+        display: block;
+        height: 10px;
+        color: #13395e;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 10px;
+        margin: 8px 0;
+      }
+      .payForm .payForm-item .message {
+        font-size: 14px;
+        color: rgba(255, 0, 0, 0.6);
+        font-weight: 500;
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+      .payForm .payForm-item .payLabel,
+      .payForm .payForm-item .message {
+        width: 100%;
+      }
+      .payHead {
+        width: auto;
+      }
+
+      .currencyContainer {
+        /* width: 355px; */
+        max-width: 100%;
+        margin: auto;
+        margin-top: 100px;
+        border-radius: 20px;
+        background-color: #fff;
+        padding: 30px;
+        box-shadow: 0px 40px 40px 40px rgba(0, 69, 255, 0.06);
+        position: relative;
+        min-height: 420px;
+        box-sizing: border-box;
+      }
+      .pay-button {
+        padding: 0;
+        margin: 0;
+        background: transparent;
+        border: none;
+        color: #fff;
+        width: calc(100%);
+        text-align: center;
+        font-size: 14px;
+        height: 100%;
+        line-height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(0, 69, 255, 0.75);
+        height: 40px;
+      }
+      .pay-button:disabled {
+        background-color: rgb(0, 69, 255, 0.2);
+        cursor: not-allowed;
+      }
+
+      .payForm .payForm-item .payTime .paySelect {
+        padding: 0;
+        margin: 0;
+        height: 40px;
+        background: rgba(0, 0, 0, 0);
+        border-radius: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #13395e;
+        font-family: monospace;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="currencyContainer">
+      <div style="background-color: #fff">
+        <div class="payContent"></div>
+
+        <button class="pay-button" type="submit" onclick="submitCard(event)">
+          Pay
+        </button>
+      </div>
+    </div>
+
+    <script>
+      payInit({
+        tradeId: "096bbf562e19aec251a156cf354a0b00",
+        userElement: "payContent",
+        url: "https://test.next-api.com",
+        buttonName: "pay-button",
+      });
+
+      const submitCard = () => {
+        // console.log(e);
+        clickButton();
+      };
+    </script>
+  </body>
+</html>

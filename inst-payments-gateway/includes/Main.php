@@ -3,6 +3,7 @@
 namespace By;
 
 use By\Gateways\By_Gateway;
+use By\Gateways\By_Apg_Gateway;
 use By\Gateways\By_Redirect_Gateway;
 use ByPaymentRedirectController;
 
@@ -37,6 +38,7 @@ class Main
     public function addPaymentGateways($gateways)
     {
         $gateways[] = By_Gateway::class;
+        $gateways[] = By_Apg_Gateway::class;
         $gateways[] = By_Redirect_Gateway::class;
         return $gateways;
     }

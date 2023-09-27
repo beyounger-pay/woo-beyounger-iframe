@@ -1,0 +1,30 @@
+{
+  "id": "3177887",
+  "name": "vuepc",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "668860",
+      "name": "关闭",
+      "font_class": "guanbi",
+      "unicode": "e676",
+      "unicode_decimal": 58998
+    },
+    {
+      "icon_id": "4767013",
+      "name": "up",
+      "font_class": "up",
+      "unicode": "e7eb",
+      "unicode_decimal": 59371
+    },
+    {
+      "icon_id": "4767014",
+      "name": "down",
+      "font_class": "down",
+      "unicode": "e7ec",
+      "unicode_decimal": 59372
+    }
+  ]
+}
