@@ -1,0 +1,344 @@
+/* radio选中框样式 */
+.payHead .payRadio {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  margin: 0;
+}
+.paycard .payHead:not(:first-of-type) {
+  margin-top: 20px;
+}
+/* radio选中框的颜色 */
+.payHead .payRadio[type="radio"] {
+  accent-color: #2196f3;
+}
+
+.payForm {
+  width: 100%;
+  margin-top: 24px;
+  /*display: none;*/
+}
+.payForm .payForm-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+  /* z-index: -1; */
+  /* justify-content: space-between; */
+  /* justify-content: center; */
+}
+.payForm .dynamicForm {
+  display: flex;
+  /* align-items: center; */
+  flex-direction: column;
+  margin-top: 16px;
+  position: relative;
+  /* z-index: -1; */
+  /* justify-content: space-between; */
+  /* justify-content: center; */
+}
+.payForm .seeMore {
+  width: 100%;
+  margin-top: 16px;
+  color: #2196f3;
+  cursor: pointer;
+  text-align: center;
+}
+
+.payForm .payForm-item:not(:first-child) {
+  margin-top: 16px;
+}
+
+/* label标题字体的样式 */
+.payForm .payForm-item .payLabel {
+  /* font-size: 18px; */
+  /* color: #333; */
+  width: 30%;
+  text-align: left;
+  /* flex: 1; */
+}
+/* input的边框以及颜色 */
+.payForm .payForm-item .payInput {
+  border-radius: 10px;
+  border: 1px solid #000;
+  padding: 0 10px;
+  height: 44px;
+  font-size: 16px;
+  /* color: #333; */
+  width: 36%;
+  box-sizing: border-box;
+  outline: none;
+}
+/* 表单验证不合格 */
+.inputMessage {
+  background: rgba(194, 45, 45, 0.1);
+  border: 1px solid #c22d2d !important;
+}
+/* 短的输入框 */
+.payForm .payForm-item .payShortInput {
+  width: 102px;
+}
+/* 问号的样式 */
+.payForm .payForm-item .cicle {
+  width: 18px;
+  height: 18px;
+  background-color: #2196f3;
+  border-radius: 50%;
+  background: url(../images/questionMark.png);
+  background-size: cover;
+  margin-left: 10px;
+}
+/* 提示弹窗 */
+.payForm .payForm-item .tips {
+  color: #333;
+  background-color: white;
+  width: 320px;
+  position: absolute;
+  left: 335px;
+  top: -120px;
+  box-shadow: 0 0 4px 0 rgb(0 0 0 / 12%), 0 4px 4px 0 rgb(0 0 0 / 24%);
+  z-index: 999;
+  padding: 0 12px 12px;
+  display: none;
+}
+/* 显示提示弹窗 */
+.payForm .payForm-item .cicle:hover + .tips {
+  display: flex;
+  flex-direction: column;
+}
+.payForm .payForm-item .tips .tips_flex {
+  display: flex;
+  /* align-content: flex-start; */
+}
+/* input选中的边框以及颜色 */
+.payForm .payForm-item .payInput:focus {
+  border: 2px solid #2196f3 !important;
+}
+/* 提示信息的样式 */
+.payForm .payForm-item .message {
+  color: #c22d2d;
+  font-size: 12px;
+  display: none;
+  margin-left: 10px;
+  width:29%
+
+  /* z-index: 999; */
+}
+.payForm .payForm-item .payTime {
+  width: 36%;
+  display: flex;
+  align-items: center;
+}
+.payForm .payForm-item .payTime .paySelect:not(:first-child) {
+  margin-left: 12px;
+}
+
+/* 下拉框的样式 */
+.payForm .payForm-item .payTime .paySelect {
+  height: 44px;
+  width: calc(18% + 24px);
+  padding: 0 10px;
+  border-radius: 10px;
+  border: 1px solid #000;
+  font-size: 16px;
+  color: #333;
+  outline: none;
+  flex: 1;
+}
+
+.payForm .payForm-item .payTime .paySelect:invalid {
+  color: #999;
+}
+
+.payForm .payForm-item .payTime .paySelectYears {
+  /* margin-right: 10px; */
+}
+/* 下拉框选中的边框的颜色 */
+.payForm .payForm-item .payTime .paySelect:focus {
+  border: 2px solid #2196f3 !important;
+}
+
+/* checkbox选中框的样式 */
+.payForm .payForm-item .payCheckbox {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+}
+
+/* checkbox选中框的颜色 */
+.payForm .payForm-item .payCheckbox[type="checkbox"] {
+  accent-color: #2196f3;
+}
+
+.payForm .payForm-item .payCont {
+  font-size: 15px;
+  color: #333;
+  margin: 10px 0 10px 10px;
+}
+.paySubmit {
+  width: 100%;
+  margin-top: 20px;
+}
+/* 提交按钮的样式 */
+.paySubmit .payButton {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  border-radius: 10px;
+  background-color: #2196f3;
+  font-size: 20px;
+  color: #fff;
+  text-transform: uppercase;
+  border: none;
+}
+.loading::after {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  right: -1px;
+  bottom: -1px;
+  border-radius: inherit;
+  background-color: rgba(255,255,255,.5);
+}
+.loading::before{
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  vertical-align: -10%;
+  clip-path: polygon(0% 0%,100% 0%,100% 30%,0% 30%);
+  animation: rotate 1s linear infinite;
+}
+@keyframes rotate {
+  from {
+    transform: rotatez(0deg);
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
+  
+}
+/* 加载样式 */
+.loading-container {
+  width: 64px;
+  height: 64px;
+  position: relative;
+  top: 0;
+  left: 50%;
+  margin-left: -32px;
+  margin-top: -15px;
+}
+.loading-container .MuiCircularProgress-svg {
+  color: #2196f3 !important;
+}
+.loading-container .MuiCircularProgress-svg .MuiCircularProgress-circle {
+  /* -webkit-animation: mui-progress-circular-dash 1.4s ease-in-out infinite; */
+  animation: mui-progress-circular-dash 1.4s ease-in-out infinite;
+  stroke-dasharray: 80px, 200px;
+  stroke-dashoffset: 0px;
+  stroke: currentColor;
+}
+@keyframes mui-progress-circular-dash {
+  0% {
+    stroke-dasharray: 1px, 200px;
+    stroke-dashoffset: 0px;
+  }
+  50% {
+    stroke-dasharray: 100px, 200px;
+    stroke-dashoffset: -15px;
+  }
+  100% {
+    stroke-dasharray: 100px, 200px;
+    stroke-dashoffset: -125px;
+  }
+}
+.payInput_width {
+  width: 36%;
+  display: flex;
+  align-items: center;
+}
+/* 微信支付样式 */
+.wechatStyle {
+  /* margin-top: 200px; */
+  /* visibility:hidden; */
+  display: none;
+  width: 164px;
+  height: 192px;
+  background: #22ac38;
+  border-radius: 20px;
+  /* display: flex; */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.wechatImg {
+  width: 132px;
+  height: 132px;
+  background: #ffffff;
+  border-radius: 10px;
+}
+.wechatIcon {
+  width: 94px;
+  height: 18px;
+  margin-top: 18px;
+}
+/* 微信加载动画 */
+.wechatLoding {
+  display: none;
+}
+/* ppro支付支付样式 */
+.pproTypeStyle {
+  width: 100%;
+  margin-top: 4px;
+ display: none;
+  
+}
+.pproTypeStyle .payForm-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+/* label标题字体的样式 */
+.pproTypeStyle .payForm-item .payLabel {
+  /* font-size: 18px; */
+  /* color: #333; */
+  width: 30%;
+  text-align: left;
+  /* flex: 1; */
+}
+.paycard-show .pproImg {
+  margin-left: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+
+.pproTypeStyle .divbox .payForm-item {
+  margin-top: 16px;
+}
+/* input的边框以及颜色 */
+.pproTypeStyle .payForm-item .payInput {
+  border-radius: 10px;
+  border: 1px solid #000;
+  padding: 0 10px;
+  height: 44px;
+  font-size: 16px;
+  /* color: #333; */
+  width: 36%;
+  box-sizing: border-box;
+  outline: none;
+}
+/* 提示信息的样式 */
+.pproTypeStyle .payForm-item .message {
+  color: #c22d2d;
+  font-size: 12px;
+  display: none;
+  margin-left: 10px;
+  width:29%
+
+  /* z-index: 999; */
+}
