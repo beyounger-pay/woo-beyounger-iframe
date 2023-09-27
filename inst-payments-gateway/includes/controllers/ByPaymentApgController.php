@@ -19,7 +19,7 @@ class ByPaymentApgController {
         $url = $gateway->domain . '';
         $key = $gateway->api_key . '';
         $secret = $gateway->api_secret . '';
-        //$api_webhook = $gateway->api_webhook . '?wc-api=by_webhook'; //http://127.0.0.1/?wc-api=by_webhook
+        $api_webhook = $gateway->api_webhook . '?wc-api=by_webhook'; //http://127.0.0.1/?wc-api=by_webhook
 
         $customer = array(
             'email' => $order->get_billing_email(),
@@ -101,7 +101,7 @@ class ByPaymentApgController {
             'cust_order_id' => 'woo' . substr($key, 0 ,5) . date("YmdHis",time()) . $orderId,
             'customer' => $customer,
             'payment_method' => 'creditcard',
-//            'notification_url' => '',
+            'notification_url' => $api_webhook,
 //            'shipping_info' => $shipping_info,
             'cart_items' => $cart_items,
             'return_url' => $order->get_view_order_url(),

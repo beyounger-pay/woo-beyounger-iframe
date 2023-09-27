@@ -32,7 +32,7 @@ var tradeID = "";
 const initCard=() =>{
 
 }
-const baseUrl = "https://api-sandbox.beyounger.com"; //https://api-sandbox.beyounger.com
+const baseUrl = "https://api.beyounger.com"; //https://api-sandbox.beyounger.com
 const tradeIDUrl = `${baseUrl}/v1/checkout`;
 
 var getTradeIDMethod = () => {

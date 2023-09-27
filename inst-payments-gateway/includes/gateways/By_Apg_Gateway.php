@@ -36,7 +36,7 @@ class By_Apg_Gateway extends WC_Payment_Gateway {
         $this->api_key = $this->get_option( 'api_key' );
         $this->api_secret = $this->get_option( 'api_secret' );
         $this->api_webhook = $this->get_option( 'api_webhook' );
-        $this->iframe = $this->get_option( 'iframe' );
+        //$this->iframe = $this->get_option( 'iframe' );
 
         // 这个action hook保存设置
 //        add_action( 'wp_enqueue_scripts'. $this->id, [$this, 'payment_scripts'] );//payment_scripts
@@ -94,11 +94,11 @@ class By_Apg_Gateway extends WC_Payment_Gateway {
                 'title'       => 'API Secret',
                 'type'        => 'text',
             ),
-//            'api_webhook' => array (
-//                'title'       => 'Your Domain',
-//                'type'        => 'text',
-//                'default'     => 'https://yourdomain.com',
-//            ),
+            'api_webhook' => array (
+                'title'       => 'Your Domain',
+                'type'        => 'text',
+                'default'     => 'https://yourdomain.com',
+            ),
 //            'iframe' => array (
 //                'title'       => 'Iframe',
 //                'label'       => 'Enable Beyounger Payment Iframe',

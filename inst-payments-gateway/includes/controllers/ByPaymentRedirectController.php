@@ -84,7 +84,7 @@ class ByPaymentRedirectController {
             'cust_order_id' => 'woo' . substr($key, 0 ,5) . date("YmdHis",time()) . $orderId,
             'customer' => $customer,
             'payment_method' => 'creditcard',
-//            'notification_url' => '',
+            'notification_url' => $api_webhook,
 //            'shipping_info' => $shipping_info,
             'cart_items' => $cart_items,
             'return_url' => $order->get_view_order_url(),
