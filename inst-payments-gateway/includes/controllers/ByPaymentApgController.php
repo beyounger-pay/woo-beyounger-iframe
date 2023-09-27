@@ -29,7 +29,7 @@ class ByPaymentApgController {
             'country' => $order->get_billing_country(),
             'state' => $order->get_billing_state(),
             'city' => $order->get_billing_city(),
-            'address' => $order->get_billing_address_1() . $order->get_billing_address_2(),
+            'address' => $order->get_billing_address_1(),
             'zipcode' => $order->get_billing_postcode(),
         );
 
@@ -130,7 +130,7 @@ class ByPaymentApgController {
         if ( $result['code'] === 0 ) {
 
             update_post_meta($orderId, 'orderNo', $result['result']['order_id']);
-            update_post_meta($orderId, 'by_url', $result['result']['redirect_url']);
+            //update_post_meta($orderId, 'by_url', $result['result']['redirect_url']);
             $order->set_transaction_id($result['result']['order_id']);
             
 //            // 给客户的一些备注（用false代替true使其变为私有）
@@ -158,7 +158,7 @@ class ByPaymentApgController {
         }
     }
     
-
+/*
     public function simplePayment($gateway, $payType, $currency, $amount, $cartItems, $customer) {
         $sdk = new HttpUtil();
         $url = $gateway->domain . '';
@@ -221,7 +221,7 @@ class ByPaymentApgController {
         return $result;
     }
     
-    
+    */
     public function webhook() { // todo 起一个service去做
 
         http_response_code(200);

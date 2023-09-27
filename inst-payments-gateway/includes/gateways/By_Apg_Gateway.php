@@ -153,7 +153,7 @@ class By_Apg_Gateway extends WC_Payment_Gateway {
         );
 
 
-        $by_url = get_post_meta($order_id, 'by_url', true);
+        //$by_url = get_post_meta($order_id, 'by_url', true);
 
         ?>
             <body>
