@@ -166,19 +166,19 @@ class By_Apg_Gateway extends WC_Payment_Gateway {
             </div>
             </body>
             <script type="text/javascript" >
-                getTradeIDMethod().then((tradeId) => {
-                    console.log('tradeId',tradeId);
-                    console.log('payInit',payInit)
+                getTradeIDMethod().then((jsonStr) => {
+                    console.log('jsonStr',jsonStr);
+                    // console.log('payInit',payInit)
                     console.log('pay-button', document.querySelector('.pay-button'))
                     console.log('payContent', document.querySelector('.payContent'))
-                    if(!tradeId){
+                    if(!jsonStr["tradeId"]){
                         console.log('tradeId is empty')
                         return
                     }
                     payInit({
-                        tradeId: tradeId,
+                        tradeId: jsonStr["tradeId"],
                         userElement: "payContent",
-                        url: "https://test.next-api.com",
+                        url: jsonStr["action"],
                         buttonName: "pay-button",
                     });
                 }).catch(()=>{

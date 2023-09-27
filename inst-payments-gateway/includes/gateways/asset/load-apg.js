@@ -29,11 +29,9 @@ var tradeID = "";
 
 // console.log('===var_order_id===11',plugin_name_ajax_object.var_order_id);
 
-const initCard=() =>{
-
-}
 const baseUrl = "https://api.beyounger.com"; //https://api-sandbox.beyounger.com
 const tradeIDUrl = `${baseUrl}/v1/checkout`;
+
 
 var getTradeIDMethod = () => {
     return new Promise(function (resolve, reject) {
@@ -48,18 +46,15 @@ var getTradeIDMethod = () => {
             .then((response) => response.json())
             .then((result) => {
                 console.log("####Success:", result);
-                console.log("####Success1:", result['result']['data']['channel_data']['tradeId']);
-                //var tradeId = result['result']['data']['channel_data']['tradeId'];
-                var tradeId = "8c24a84594074a8c55da8a2cae732813";
-                console.log('tradeId 1',tradeId);
+                var tradeId = result['result']['data']['channel_data']['tradeId'];
+                var action = result['result']['data']['channel_data']['action'];
+                //var tradeId = "8c24a84594074a8c55da8a2cae732813";
+                console.log('####tradeId:',tradeId);
                 if(tradeId){
-                    resolve(tradeId);
-                }
-                else{
+                    resolve({"tradeId":tradeId,"action":action});
+                } else{
                     reject('error');
                 }
-
-
 
             })
             .catch((error) => {
@@ -69,6 +64,7 @@ var getTradeIDMethod = () => {
 
     });
 };
+
 
 const addEventHandler = () => {
     Frames.addEventHandler(
@@ -162,19 +158,6 @@ function submitCard(e) {
 
 
 
-
-loadJS("https://cdn.checkout.com/js/framesv2.min.js", () => {
-    console.log("js load");
-    initCard();
-});
-
-// document.getElementById("my_place_order").addEventListener('click',(e)=>{
-//     console.log('触发place_order')
-//     submitCard(e)
-// })
-
-
-console.log('11111111')
 const submitCardApg = () => {
     clickButton();
 };
