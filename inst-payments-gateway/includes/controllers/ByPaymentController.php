@@ -129,9 +129,7 @@ class ByPaymentController {
         "&" . $secret .
         "&" . $timeStamp;
 
-        echo '########0000000001:'.$signatureData."\n";
         $result = $sdk->post($url, $requestPath, $post_data, $signatureData, $key, $timeStamp);
-        echo '########0000000002:'.$result."\n";
 
         //echo $post_data['cust_order_id'] . "\n";
 //        echo json_encode($order). "=====\n";;
