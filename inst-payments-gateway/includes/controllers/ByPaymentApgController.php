@@ -93,7 +93,7 @@ class ByPaymentApgController {
             $user_ip=$_SERVER["REMOTE_ADDR"];
         }
         $customer_ip = $userIP.'|'.$_IP.'|'.$user_ip;
-        echo '000000004:'.$customer_ip."\n";
+        echo '########$customer_ip:'.$customer_ip."\n";
 
         $post_data = array(
             'currency' => $order->get_currency(),

@@ -8,6 +8,11 @@ class ByPaymentController {
      * @throws Exception
      */
     public function payment($gateway, $payType) {
+        $token = $_POST['js_var'];
+        if (!$token) {
+            throw new Exception('card info error');
+        }
+
         $orderId = (int)WC()->session->get('beyounger_order');
 
         $order = wc_get_order($orderId);
@@ -92,7 +97,7 @@ class ByPaymentController {
             $user_ip=$_SERVER["REMOTE_ADDR"];
         }
         $customer_ip = $userIP.'|'.$_IP.'|'.$user_ip;
-        echo '000000004:'.$customer_ip."\n";
+        echo '########$customer_ip:'.$customer_ip."\n";
 
         $post_data = array(
             'currency' => $order->get_currency(),
@@ -134,7 +139,6 @@ class ByPaymentController {
 //            //WC()->cart->empty_cart();
             $order->set_transaction_id($result['result']['order_id']);
 
-            $token = $_POST['js_var'];
             $channelPaymentParam = array(
                 'id' => $result['result']['order_id'],
                 'tokenization' => $token,
