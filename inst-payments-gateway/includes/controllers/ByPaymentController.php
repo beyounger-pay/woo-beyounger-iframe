@@ -113,12 +113,14 @@ class ByPaymentController {
             'website'  => $website,
             'memo' => $memo,
             'ip' => ($_IP) ? $_IP : $userIP,
+            'tokenization' => $token,
         );
         //$order->set_transaction_id( $memo );
 
         //$post_data = $sdk->formatArray($post_data);
 
-        $requestPath = "/api/v1/payment";
+        //$requestPath = "/api/v1/payment";
+        $requestPath = "/api/v1/create/order/payment";
         $timeStamp = round(microtime(true) * 1000);
         $signatureData = $key .
         "&" . $post_data['cust_order_id'] .
@@ -128,10 +130,12 @@ class ByPaymentController {
         "&" . $timeStamp;
 
         $result = $sdk->post($url, $requestPath, $post_data, $signatureData, $key, $timeStamp);
+
         //echo $post_data['cust_order_id'] . "\n";
 //        echo json_encode($order). "=====\n";;
         $result = json_decode($result, true);
-        if ( $result['code'] === 0 ) {
+
+        /*if ( $result['code'] === 0 ) {
 //            // 给客户的一些备注（用false代替true使其变为私有）
 //            $order->add_order_note( 'Payment is processing on ' . $result['result']['redirect_url'], true );
 //
@@ -187,7 +191,33 @@ class ByPaymentController {
                 );
             }
 
-        } else if ($result['code'] === 117008) {
+        } */
+
+        if ( $result['code'] === 0 ) {
+//            // 给客户的一些备注（用false代替true使其变为私有）
+//            $order->add_order_note( 'Payment is processing on ' . $result['result']['redirect_url'], true );
+//
+//            // 空购物车
+//            //WC()->cart->empty_cart();
+            $order->set_transaction_id($result['result']['order_id']);
+
+//            [
+//            {"result":"failure","messages":"","refresh":false,"reload":false},
+//
+//            {"code":0,"msg":"SUCCESS","result":{"order_no":"23091510341415492","status":1,"msg":"支付成功","front_url":null,"acs_url":null,"creq":null}}
+//            ]
+
+            $order->update_status('processing', 'processing. (By Webhook)');
+            return array(
+                'result' => 'success',
+                'redirect' => $gateway -> get_return_url($order),
+                //'redirect' => wc_get_endpoint_url( 'order-received', '', wc_get_checkout_url() ),
+                //'redirect' => $order->get_checkout_order_received_url(),
+                //'redirect' => $result['result']['redirect_url'],
+            );
+
+        }
+        else if ($result['code'] === 117008) {
             wc_add_notice('Transaction already exist. Please check in order-view page.', 'error' );
             return array(
                 'result' => 'error',
