@@ -41,18 +41,19 @@ class ByPaymentController {
 //        $product_info = array(
 //            'name' => 'name'
 //        );
-//
-//        $shipping_info = array(
-//            'phone' => $order->get_shipping_phone(),
-//            'first_name' => $order->get_shipping_first_name(),
-//            'last_name' => $order->get_shipping_last_name(),
-//            'country' => $order->get_shipping_country(),
-//            'state' => $order->get_shipping_state(),
-//            'city' => $order->get_shipping_city(),
-//            'address' => $order->get_shipping_address_1() . $order->get_shipping_address_2(),
-//            'zipcode' => $order->get_shipping_postcode(),
-//            'company' => $order->get_shipping_company(),
-//        );
+        $shipping_info = array(
+            'email' => $order->get_billing_email(),
+            'phone' => $order->get_billing_phone(),
+            'first_name' => $order->get_billing_first_name(),
+            'last_name' => $order->get_billing_last_name(),
+            'country' => $order->get_billing_country(),
+            'state' => $order->get_billing_state(),
+            'city' => $order->get_billing_city(),
+            'address1' => $order->get_shipping_address_1(),
+            'address2' => $order->get_shipping_address_2(),
+            'zipcode' => $order->get_billing_postcode(),
+        );
+
         $cart_items = [];
         foreach ($order->get_items() as $item_key => $item ):
             $item_id = $item->get_id();
@@ -61,7 +62,6 @@ class ByPaymentController {
             $item_name    = $item->get_name(); // Name of the product
             $quantity     = $item->get_quantity();
             $total        = $item->get_total(); // Line total (discounted)
-            //echo $item . "=====\n";
             $myitem = array(
                 'id' => $item_id,
                 'name' => $item_name,
@@ -106,7 +106,7 @@ class ByPaymentController {
             'customer' => $customer,
             'payment_method' => 'creditcard',
 //            'notification_url' => '',
-//            'shipping_info' => $shipping_info,
+            'delivery_recipient' => $shipping_info,
             'cart_items' => $cart_items,
             'return_url' => $order->get_view_order_url(),
             'network' => $payType,
