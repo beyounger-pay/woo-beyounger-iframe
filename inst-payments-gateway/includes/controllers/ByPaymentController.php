@@ -197,14 +197,15 @@ class ByPaymentController {
 //            // 给客户的一些备注（用false代替true使其变为私有）
 //            $order->add_order_note( 'Payment is processing on ' . $result['result']['redirect_url'], true );
 //
-            // 空购物车
-            WC()->cart->empty_cart();
+//            // 空购物车
+//            //WC()->cart->empty_cart();
             $order->set_transaction_id($result['result']['order_id']);
 
             $status = $result['result']['status'];
             $acs_url = $result['result']['acs_url'];
             if ($status === 0 and $acs_url) {
                 echo '########acs_url:'.$acs_url."\n";
+                WC()->cart->empty_cart();
                 return array(
                     'result' => 'success',
                     'redirect' => $acs_url,
@@ -213,6 +214,7 @@ class ByPaymentController {
                     //'redirect' => $result['result']['redirect_url'],
                 );
             }
+
 
             $order->update_status('processing', 'processing. (By Webhook)');
             return array(
