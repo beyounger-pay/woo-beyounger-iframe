@@ -61,7 +61,6 @@ class ByPaymentController {
             $item_name    = $item->get_name(); // Name of the product
             $quantity     = $item->get_quantity();
             $total        = $item->get_total(); // Line total (discounted)
-            //echo $item . "=====\n";
             $myitem = array(
                 'id' => $item_id,
                 'name' => $item_name,
@@ -201,11 +200,20 @@ class ByPaymentController {
 //            //WC()->cart->empty_cart();
             $order->set_transaction_id($result['result']['order_id']);
 
-//            [
-//            {"result":"failure","messages":"","refresh":false,"reload":false},
-//
-//            {"code":0,"msg":"SUCCESS","result":{"order_no":"23091510341415492","status":1,"msg":"支付成功","front_url":null,"acs_url":null,"creq":null}}
-//            ]
+            $status = $result['result']['status'];
+            $acs_url = $result['result']['acs_url'];
+            if ($status === 0 and $acs_url) {
+                echo '########acs_url:'.$acs_url."\n";
+                WC()->cart->empty_cart();
+                return array(
+                    'result' => 'success',
+                    'redirect' => $acs_url,
+                    //'redirect' => wc_get_endpoint_url( 'order-received', '', wc_get_checkout_url() ),
+                    //'redirect' => $order->get_checkout_order_received_url(),
+                    //'redirect' => $result['result']['redirect_url'],
+                );
+            }
+
 
             $order->update_status('processing', 'processing. (By Webhook)');
             return array(
