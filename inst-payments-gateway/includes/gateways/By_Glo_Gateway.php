@@ -36,8 +36,8 @@ class By_Glo_Gateway extends WC_Payment_Gateway {
         $this->domain = $this->get_option( 'domain' );
         $this->api_key = $this->get_option( 'api_key' );
         $this->api_secret = $this->get_option( 'api_secret' );
-        $this->api_webhook = $this->get_option( 'api_webhook' );
-        $this->iframe = $this->get_option( 'iframe' );
+        $this->app_id = $this->get_option( 'app_id' );
+
 
         // 这个action hook保存设置
 //        add_action( 'wp_enqueue_scripts'. $this->id, [$this, 'payment_scripts'] );//payment_scripts
@@ -87,6 +87,10 @@ class By_Glo_Gateway extends WC_Payment_Gateway {
                 'title'       => 'API Secret',
                 'type'        => 'text',
             ),
+            'app_id' => array (
+                'title'       => 'APP ID',
+                'type'        => 'text',
+            ),
 
         );
 
@@ -129,7 +133,11 @@ class By_Glo_Gateway extends WC_Payment_Gateway {
         wp_enqueue_script('custom-jquery-js', 'https://pay.glocashpayment.com/public/comm/js/jquery112.min.js', [], null, false);
         wp_enqueue_script('custom-glocashpayment-js', 'https://pay.glocashpayment.com/public/gateway/js/iframe.v0.1.js', [], null, false);
         wp_enqueue_script('custom-glocash', plugins_url('/asset/glocash.js', __FILE__), [], null, false);
-
+        wp_localize_script( 'custom-glocash', 'plugin_name_ajax_object',
+            array(
+                'var_app_id'=> $this->app_id,
+            )
+        );
 
         ?>
         <style>
