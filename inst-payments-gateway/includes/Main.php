@@ -5,6 +5,7 @@ namespace By;
 use By\Gateways\By_Gateway;
 use By\Gateways\By_Apg_Gateway;
 use By\Gateways\By_Redirect_Gateway;
+use By\Gateways\By_Glo_Gateway;
 use ByPaymentRedirectController;
 
 class Main
@@ -40,6 +41,7 @@ class Main
         $gateways[] = By_Gateway::class;
         $gateways[] = By_Apg_Gateway::class;
         $gateways[] = By_Redirect_Gateway::class;
+        $gateways[] = By_Glo_Gateway::class;
         return $gateways;
     }
 }
