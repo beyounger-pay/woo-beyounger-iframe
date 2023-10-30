@@ -1,8 +1,12 @@
 let loading = false; //订单付款请求中
-var appId = 380; //商户ID 必填
+//var appId = 380; //商户ID 必填
 const isToken = false; // token支付 必须是true
 
-
+console.log('===var_app_id===',plugin_name_ajax_object.var_app_id);
+var appId = plugin_name_ajax_object.var_app_id;
+if (!appId) {
+  appId = '380';
+}
 
 
 
