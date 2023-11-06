@@ -95,7 +95,7 @@ class By_Glo_Gateway extends WC_Payment_Gateway {
                 'title'       => 'Webhook',
                 'label'       => 'Enable Payment Webhook',
                 'type'        => 'checkbox',
-                'description' => 'url : http(s)://{host}?wc-api=by_glo_webhook',
+                'description' => 'url : http(s)://{host}?wc-api=by_webhook',
                 'default'     => 'no',
             ),
 
