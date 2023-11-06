@@ -69,7 +69,7 @@ let apiKey = plugin_name_ajax_object.var_api_key;
 
 console.log('===js===',apiKey);
 const tokenUrl = "https://api.checkout.com/tokens"; //https://api.sandbox.checkout.com/tokens
-const baseUrl = "https://api.beyounger.com"; //https://api-sandbox.beyounger.com
+const baseUrl = "https://api.beyounger.com"; //https://api-sandbox.beyounger.com http://127.0.0.1:8585
 const publicKeyUrl = `${baseUrl}/v1/saas/checkout?apiKey=`+apiKey;
 
 const getPublickKeyMethod = () => {
