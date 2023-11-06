@@ -24,7 +24,45 @@ var loadJS = (url, callback) => {
 let err = true;
 let loading = false;
 let publicKey = "";
-//let apiKey = '<?= $this->api_key; ?>';
+//页面顶部
+let cko_cardholder_name = document.getElementById("cko_cardholder_name");
+let billing_first_name = document.getElementById("billing_first_name");
+let billing_last_name = document.getElementById("billing_last_name");
+
+let old_billing_first_name = billing_first_name.value;
+let old_billing_last_name = billing_last_name.value;
+
+if (old_billing_last_name && old_billing_first_name) {
+    document.getElementById(
+        "cko_cardholder_name"
+    ).value = `${old_billing_first_name} ${old_billing_last_name}`;
+}
+
+billing_last_name.addEventListener("input", (e) => {
+    let current_name = document.getElementById("cko_cardholder_name").value;
+    let old_name = `${billing_first_name.value} ${old_billing_last_name}`;
+    let new_name = `${billing_first_name.value} ${e.target.value}`;
+
+    if (current_name === "" || current_name === old_name) {
+        document.getElementById("cko_cardholder_name").value = new_name;
+    }
+
+    old_billing_last_name = e.target.value;
+});
+
+billing_first_name.addEventListener("input", (e) => {
+    let current_name = document.getElementById("cko_cardholder_name").value;
+    let old_name = `${old_billing_first_name} ${billing_last_name.value}`;
+    let new_name = `${e.target.value} ${billing_last_name.value}`;
+
+    if (current_name === "" || current_name === old_name) {
+        document.getElementById("cko_cardholder_name").value = new_name;
+    }
+
+    old_billing_first_name = e.target.value;
+});
+
+
 
 console.log('===var_api_key===',plugin_name_ajax_object.var_api_key);
 let apiKey = plugin_name_ajax_object.var_api_key;
@@ -171,6 +209,12 @@ function submitCard(e) {
     loading = true;
     document.getElementById("pay-button").disabled = true;
     document.getElementById("pay-button").innerText = "Loading";
+    let name = document.getElementById("cko_cardholder_name").value;
+    if (name !== "") {
+        Frames.cardholder = {
+            name,
+        };
+    }
     Frames.submitCard();
 }
 

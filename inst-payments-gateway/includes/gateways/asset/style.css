@@ -173,3 +173,33 @@ summary {
     .master{
         margin-right: 10px;
     }
+
+
+    .cko-name-label{
+        margin-top:20px;
+    }
+    .cko-name{
+        position: relative;
+        display: flex;
+
+        height: 40px;
+        width: 100%;
+    }
+    .cko-name-wrap{
+        width: 100%;
+    }
+    .cko-name-input{
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba(0,0,0,0);
+        border: none;
+        outline: none;
+        font-size: 14px;
+        font-weight: 500;
+        color: #13395e;
+        -webkit-text-fill-color: #13395e;
+        font-family: monospace;
+        -webkit-appearance: none;
+    }
