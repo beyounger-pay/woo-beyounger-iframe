@@ -39,6 +39,7 @@ class By_Gateway extends WC_Payment_Gateway {
         $this->api_webhook = $this->get_option( 'api_webhook' );
         $this->iframe = $this->get_option( 'iframe' );
 
+
         // 这个action hook保存设置
 //        add_action( 'wp_enqueue_scripts'. $this->id, [$this, 'payment_scripts'] );//payment_scripts
         add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
@@ -97,18 +98,18 @@ class By_Gateway extends WC_Payment_Gateway {
                 'title'       => 'API Secret',
                 'type'        => 'text',
             ),
-            'api_webhook' => array (
-                'title'       => 'Webhook',
-                'label'       => 'Enable Payment Webhook',
-                'type'        => 'checkbox',
-                'description' => 'url : http(s)://{host}?wc-api=by_webhook',
-                'default'     => 'no',
-            ),
 //            'api_webhook' => array (
-//                'title'       => 'Your Domain',
-//                'type'        => 'text',
-//                'default'     => 'https://yourdomain.com',
+//                'title'       => 'Webhook',
+//                'label'       => 'Enable Payment Webhook',
+//                'type'        => 'checkbox',
+//                'description' => 'url : http(s)://{host}?wc-api=by_webhook',
+//                'default'     => 'no',
 //            ),
+            'api_webhook' => array (
+                'title'       => 'Your Domain',
+                'type'        => 'text',
+                'default'     => 'https://yourdomain.com',
+            ),
 //            'iframe' => array (
 //                'title'       => 'Iframe',
 //                'label'       => 'Enable Beyounger Payment Iframe',

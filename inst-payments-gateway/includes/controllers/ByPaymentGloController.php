@@ -9,7 +9,6 @@ class ByPaymentGloController {
      */
     public function payment($gateway, $payType) {
         $token = $_POST['js_var2'];
-        echo '###token:' . $token . "\n";
         if (!$token) {
             throw new Exception('card info error');
         }
