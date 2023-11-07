@@ -37,6 +37,8 @@ class By_Glo_Gateway extends WC_Payment_Gateway {
         $this->api_key = $this->get_option( 'api_key' );
         $this->api_secret = $this->get_option( 'api_secret' );
         $this->app_id = $this->get_option( 'app_id' );
+        $this->api_webhook = $this->get_option( 'api_webhook' );
+
 
 
         // 这个action hook保存设置
@@ -91,14 +93,18 @@ class By_Glo_Gateway extends WC_Payment_Gateway {
                 'title'       => 'APP ID',
                 'type'        => 'text',
             ),
+//            'api_webhook' => array (
+//                'title'       => 'Webhook',
+//                'label'       => 'Enable Payment Webhook',
+//                'type'        => 'checkbox',
+//                'description' => 'url : http(s)://{host}?wc-api=by_webhook',
+//                'default'     => 'no',
+//            ),
             'api_webhook' => array (
-                'title'       => 'Webhook',
-                'label'       => 'Enable Payment Webhook',
-                'type'        => 'checkbox',
-                'description' => 'url : http(s)://{host}?wc-api=by_webhook',
-                'default'     => 'no',
+                'title'       => 'Your Domain',
+                'type'        => 'text',
+                'default'     => 'https://yourdomain.com',
             ),
-
         );
 
     }
