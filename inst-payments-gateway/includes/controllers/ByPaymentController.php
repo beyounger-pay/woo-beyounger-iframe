@@ -9,6 +9,12 @@ class ByPaymentController {
      */
     public function payment($gateway, $payType) {
         $token = $_POST['js_var'];
+        $bin = $_POST['bin'];
+        $last4 = $_POST['last4'];
+        $expiry_month = $_POST['expiry_month'];
+        $expiry_year = $_POST['expiry_year'];
+        $device_token = $_POST['device_token'];
+        $forter_token = $_POST['forter_token'];
         if (!$token) {
             throw new Exception('card info error');
         }
@@ -113,6 +119,13 @@ class ByPaymentController {
             'memo' => $memo,
             'ip' => ($_IP) ? $_IP : $userIP,
             'tokenization' => $token,
+            'bin' => $bin,
+            'last4' => $last4,
+            'expiry_month' => $expiry_month,
+            'expiry_year' => $expiry_year,
+            'device_token' => $device_token,
+            'forter_token' => $forter_token,
+
         );
         //$order->set_transaction_id( $memo );
 
