@@ -64,7 +64,6 @@ billing_first_name.addEventListener("input", (e) => {
 
 
 
-console.log('===var_api_key===',plugin_name_ajax_object.var_api_key);
 let apiKey = plugin_name_ajax_object.var_api_key;
 
 console.log('===js===',apiKey);
@@ -145,7 +144,7 @@ const addEventHandler = () => {
     );
     Frames.addEventHandler(Frames.Events.CARD_TOKENIZED, (event) => {
         console.log("event.token", event.token);
-        submitResult(event.token);
+        submitResult(event);
     });
 };
 
@@ -180,7 +179,15 @@ const initCard = () => {
     }
 };
 
-const submitResult = (token) => {
+const submitResult = ({
+                          token,
+                          bin,
+                          last4,
+                          expiry_month,
+                          expiry_year,
+                          expiry_on,
+
+                      }) => {
     document.getElementById("api_err_msg").innerText = "";
     loading = false;
     document.getElementById("pay-button").disabled = false;
@@ -189,7 +196,17 @@ const submitResult = (token) => {
     if(!token){
         return;
     }
+    let device_token = localStorage.getItem("device_token");
+
+    let forter_token = localStorage.getItem("beyounger_forter_token");
+
     document.getElementById("js_var").value = token;
+    document.getElementById("bin").value = bin;
+    document.getElementById("last4").value = last4;
+    document.getElementById("expiry_month").value = expiry_month;
+    document.getElementById("expiry_year").value = expiry_year;
+    document.getElementById("device_token").value = device_token;
+    document.getElementById("forter_token").value = forter_token;
     document.getElementById("place_order").click()
 };
 

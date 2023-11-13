@@ -37,6 +37,7 @@ class By_Gateway extends WC_Payment_Gateway {
         $this->api_key = $this->get_option( 'api_key' );
         $this->api_secret = $this->get_option( 'api_secret' );
         $this->api_webhook = $this->get_option( 'api_webhook' );
+        $this->site_id = $this->get_option( 'site_id' );
         $this->iframe = $this->get_option( 'iframe' );
 
 
@@ -110,6 +111,11 @@ class By_Gateway extends WC_Payment_Gateway {
                 'type'        => 'text',
                 'default'     => 'https://yourdomain.com',
             ),
+            'site_id' => array (
+                'title'       => 'Site Id',
+                'type'        => 'text',
+                'default'     => 'cee541xxxx4a',
+            ),
 //            'iframe' => array (
 //                'title'       => 'Iframe',
 //                'label'       => 'Enable Beyounger Payment Iframe',
@@ -158,8 +164,15 @@ class By_Gateway extends WC_Payment_Gateway {
     public function payment_fields() {
         wp_enqueue_style( 'custom-css' ,  plugins_url( '/asset/style.css' , __FILE__ ));
 //        wp_enqueue_script('custom-gallery2', 'https://cdn.checkout.com/js/framesv2.min.js');
+        wp_enqueue_script('custom-forter', plugins_url('/asset/forter.js', __FILE__));
         wp_enqueue_script('custom-load', plugins_url('/asset/load.js', __FILE__), [], null, true);
+        wp_enqueue_script('custom-device-token', 'https://cdn.jsdelivr.net/npm/@beyounger/validator@0.0.3/dist/device.min.js', [], null, true);
 
+        wp_localize_script( 'custom-forter', 'plugin_name_ajax_object',
+            array(
+                'var_site_id'=> $this->site_id,
+            )
+        );
         wp_localize_script( 'custom-load', 'plugin_name_ajax_object',
             array(
                 'var_api_key'=> $this->api_key,
@@ -239,6 +252,13 @@ class By_Gateway extends WC_Payment_Gateway {
                     </button>
                 </form>
                 <input type="hidden" name="js_var" id="js_var" value="">
+                <input type="hidden" name="bin" id="bin" value="">
+                <input type="hidden" name="last4" id="last4" value="">
+                <input type="hidden" name="expiry_month" id="expiry_month" value="">
+                <input type="hidden" name="expiry_year" id="expiry_year" value="">
+                <input type="hidden" name="device_token" id="device_token" value="">
+                <input type="hidden" name="forter_token" id="forter_token" value="">
+
                 <button  type="button" class="button alt wp-element-button" name="woocommerce_checkout_place_order" id="my_place_order"> Place order</button>
             </div>
         </div>
