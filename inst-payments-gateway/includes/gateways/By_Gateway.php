@@ -214,6 +214,16 @@ class By_Gateway extends WC_Payment_Gateway {
                         </div>
                     </div>
 
+                    <label class="cko-name-label" for="cko-name"
+                    >Name on card</label
+                    >
+                    <div class="input-container cko-name">
+                        <div class="cko-name-wrap frame--activated">
+                            <input  id="cko_cardholder_name" type="text" placeholder="Name on card" name="cko-name" class="cko-name-input">
+                        </div>
+
+                    </div>
+
                     <div id="card_err_msg"></div>
                     <div id="date_err_msg"></div>
                     <div id="cvv_err_msg"></div>

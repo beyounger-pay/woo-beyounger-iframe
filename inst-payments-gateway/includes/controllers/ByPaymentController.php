@@ -42,17 +42,17 @@ class ByPaymentController {
 //            'name' => 'name'
 //        );
 //
-//        $shipping_info = array(
-//            'phone' => $order->get_shipping_phone(),
-//            'first_name' => $order->get_shipping_first_name(),
-//            'last_name' => $order->get_shipping_last_name(),
-//            'country' => $order->get_shipping_country(),
-//            'state' => $order->get_shipping_state(),
-//            'city' => $order->get_shipping_city(),
-//            'address' => $order->get_shipping_address_1() . $order->get_shipping_address_2(),
-//            'zipcode' => $order->get_shipping_postcode(),
-//            'company' => $order->get_shipping_company(),
-//        );
+        $shipping_info = array(
+            'phone' => $order->get_shipping_phone(),
+            'first_name' => $order->get_shipping_first_name(),
+            'last_name' => $order->get_shipping_last_name(),
+            'country' => $order->get_shipping_country(),
+            'state' => $order->get_shipping_state(),
+            'city' => $order->get_shipping_city(),
+            'address' => $order->get_shipping_address_1() . $order->get_shipping_address_2(),
+            'zipcode' => $order->get_shipping_postcode(),
+            'company' => $order->get_shipping_company(),
+        );
         $cart_items = [];
         foreach ($order->get_items() as $item_key => $item ):
             $item_id = $item->get_id();
@@ -105,7 +105,7 @@ class ByPaymentController {
             'customer' => $customer,
             'payment_method' => 'creditcard',
             'notification_url' => $api_webhook,
-//            'shipping_info' => $shipping_info,
+            'delivery_recipient' => $shipping_info,
             'cart_items' => $cart_items,
             'return_url' => $order->get_view_order_url(),
             'network' => $payType,
