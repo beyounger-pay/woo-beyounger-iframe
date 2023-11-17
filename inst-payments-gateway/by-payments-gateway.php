@@ -23,6 +23,9 @@ add_action('plugins_loaded', 'by_init');
 function by_init() {
 
     require_once BY_PLUGIN_PATH . 'includes/Main.php';
+    // 在主文件中引入新文件
+    require_once(BY_PLUGIN_PATH . 'includes/controllers/GetTrackingNumber.php');
+
     foreach (glob(BY_PLUGIN_PATH . 'includes/*/*.php') as $includeFile) {
         require_once $includeFile;
     }
