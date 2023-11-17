@@ -79,20 +79,22 @@ function save_custom_shipping_tracking_field($order_id)
 
             $tracking_number_result = update_post_meta($order_id, '_custom_shipping_tracking_number', $tracking_number);
             $logistics_company_result = update_post_meta($order_id, '_logistics_company', $logistics_company);
+            error_log('saron---保存物流号 物流公司:' . $logistics_company_result);
+            error_log('saron---保存物流号 物流号:' . $tracking_number_result);
 
-            if ($tracking_number_result && $logistics_company_result) {
+            if ($tracking_number_result || $logistics_company_result) {
                 // 更新成功
                 error_log('saron---保存物流号结束！更新成功--物流号:' . $tracking_number);
 
 
                 // 要发送的JSON数据
-                $json_data = json_encode(array(
-                    "order_id" => $order_id,
+                $json_data = array(
+                    "cust_order_id" => 'woo' . substr($api_key, 0 ,5) . date("YmdHis",time()) . $order_id,
                     "delivery_details" => array(
-                        "logistics_company" => $logistics_company_result,
+                        "logistics_company" => $logistics_company,
                         "tracking_number" => $tracking_number
                     )
-                ));
+                );
 
 
                 $sdk = new HttpUtil();
