@@ -130,6 +130,7 @@ class ByPaymentApgController {
         if ( $result['code'] === 0 ) {
 
             update_post_meta($orderId, 'orderNo', $result['result']['order_id']);
+            update_post_meta($orderId, '_cust_order_id', $post_data['cust_order_id']);
             //update_post_meta($orderId, 'by_url', $result['result']['redirect_url']);
             $order->set_transaction_id($result['result']['order_id']);
             

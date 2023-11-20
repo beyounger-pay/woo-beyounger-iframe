@@ -229,6 +229,8 @@ class ByPaymentController {
 
 
             $order->update_status('processing', 'processing. (By Webhook)');
+            update_post_meta($orderId, '_cust_order_id', $post_data['cust_order_id']);
+
             return array(
                 'result' => 'success',
                 'redirect' => $gateway -> get_return_url($order),

@@ -131,6 +131,7 @@ class ByPaymentRedirectController {
             if ($gateway->iframe === 'yes') {
 //                echo 'iframe:' . $result['result']['redirect_url'] . "\n";
                 update_post_meta($orderId, 'by_url', $result['result']['redirect_url']);
+                update_post_meta($orderId, '_cust_order_id', $post_data['cust_order_id']);
                 return array(
                     'result' => 'success',
                     'redirect' => $order->get_checkout_payment_url(true), //http://demo6.local/checkout/order-pay/33/?key=wc_order_no9c1aCayjdop

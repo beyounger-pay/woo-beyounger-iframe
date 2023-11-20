@@ -14,15 +14,15 @@ function add_custom_shipping_tracking_field($order)
 {
     error_log('saron---添加物流号函数已调用！');
     woocommerce_wp_text_input(array(
-        'id' => '_logistics_company',
+        'id' => '_shipping_logistics_company',
         'label' => __('物流公司', 'woocommerce'),
-        'value' => get_post_meta($order->get_id(), '_logistics_company', true),
+        'value' => get_post_meta($order->get_id(), '_shipping_logistics_company', true),
     ));
     woocommerce_wp_text_input(array(
-    'id' => '_custom_shipping_tracking_number',
-    'label' => __('物流号', 'woocommerce'),
-    'value' => get_post_meta($order->get_id(), '_custom_shipping_tracking_number', true),
-));
+        'id' => '_shipping_tracking_number',
+        'label' => __('物流号', 'woocommerce'),
+        'value' => get_post_meta($order->get_id(), '_shipping_tracking_number', true),
+    ));
 }
 
 function save_custom_shipping_tracking_field($order_id)
@@ -66,60 +66,60 @@ function save_custom_shipping_tracking_field($order_id)
     }
 
 
-    $tracking_number = isset($_POST['_custom_shipping_tracking_number']) ? sanitize_text_field($_POST['_custom_shipping_tracking_number']) : '';
-    $logistics_company = isset($_POST['_logistics_company']) ? sanitize_text_field($_POST['_logistics_company']) : '';
-    if (!empty($tracking_number)) {
-        $old_tracking_number = get_post_meta($order_id, '_custom_shipping_tracking_number', true);
-        $new_tracking_number = sanitize_text_field($_POST['_custom_shipping_tracking_number']);
+    $tracking_number = isset($_POST['_shipping_tracking_number']) ? sanitize_text_field($_POST['_shipping_tracking_number']) : '';
+    $logistics_company = isset($_POST['_shipping_logistics_company']) ? sanitize_text_field($_POST['_shipping_logistics_company']) : '';
+    if (!empty($tracking_number)&&!empty($logistics_company)) {
+        $old_tracking_number = get_post_meta($order_id, '_shipping_tracking_number', true);
+        $new_tracking_number = sanitize_text_field($_POST['_shipping_tracking_number']);
 
-        $new_logistics_company = sanitize_text_field($_POST['_logistics_company']);
-        $old_logistics_company = get_post_meta($order_id, '_logistics_company', true);
-        if(($new_tracking_number !== $old_tracking_number)||($new_logistics_company !== $old_logistics_company)){
-
-
-            $tracking_number_result = update_post_meta($order_id, '_custom_shipping_tracking_number', $tracking_number);
-            $logistics_company_result = update_post_meta($order_id, '_logistics_company', $logistics_company);
-            error_log('saron---保存物流号 物流公司:' . $logistics_company_result);
-            error_log('saron---保存物流号 物流号:' . $tracking_number_result);
-
-            if ($tracking_number_result || $logistics_company_result) {
-                // 更新成功
-                error_log('saron---保存物流号结束！更新成功--物流号:' . $tracking_number);
-
-
-                // 要发送的JSON数据
-                $json_data = array(
-                    "cust_order_id" => 'woo' . substr($api_key, 0 ,5) . date("YmdHis",time()) . $order_id,
-                    "delivery_details" => array(
-                        "logistics_company" => $logistics_company,
-                        "tracking_number" => $tracking_number
-                    )
-                );
-
-
-                $sdk = new HttpUtil();
-                $key = $api_key;
-                $secret = $api_secret;
-                $requestPath = "/api/v1/payment/delivery";
-                $timeStamp = round(microtime(true) * 1000);
-                $signatureData = $key .
-                    "&" . $secret .
-                    "&" . $timeStamp;
-
-                $result = $sdk->post($domain, $requestPath, $json_data, $signatureData, $key, $timeStamp);
-                $result = json_decode($result, true);
-                error_log("saron----data:".print_r($result, true));
-                error_log("saron----url:".$domain);
-                error_log("saron----json_data:".$json_data);
-                error_log("saron----key:".$key);
+        $new_logistics_company = sanitize_text_field($_POST['_shipping_logistics_company']);
+        $old_logistics_company = get_post_meta($order_id, '_shipping_logistics_company', true);
 
 
 
-            } else {
-                // 更新失败
-                error_log('saron---保存物流号失败！更新失败--订单ID: ' . $order_id);
+        $cust_order_id = get_post_meta($order_id, '_cust_order_id', true);
+        if (!empty($cust_order_id)){
+            if(($new_tracking_number !== $old_tracking_number)||($new_logistics_company !== $old_logistics_company)){
+
+
+                $tracking_number_result = update_post_meta($order_id, '_shipping_tracking_number', $tracking_number);
+                $logistics_company_result = update_post_meta($order_id, '_shipping_logistics_company', $logistics_company);
+//                error_log('saron---保存物流号 物流公司:' . $new_logistics_company);
+//                error_log('saron---保存物流号 物流号:' . $new_tracking_number);
+//                error_log('saron---保存物流号 cust_order_id:' . $cust_order_id);
+
+                if ($tracking_number_result || $logistics_company_result) {
+                    // 更新成功
+//                    error_log('saron---保存物流号结束！更新成功--物流号:' . $tracking_number);
+
+                    // 要发送的JSON数据
+                    $json_data = array(
+                        "cust_order_id" => $cust_order_id,
+                        "delivery_details" => array(
+                            "logistics_company" => $logistics_company,
+                            "tracking_number" => $tracking_number
+                        )
+                    );
+
+
+                    $sdk = new HttpUtil();
+                    $key = $api_key;
+                    $secret = $api_secret;
+                    $requestPath = "/api/v1/payment/delivery";
+                    $timeStamp = round(microtime(true) * 1000);
+                    $signatureData = $key .
+                        "&" . $secret .
+                        "&" . $timeStamp;
+
+                    $result = $sdk->post($domain, $requestPath, $json_data, $signatureData, $key, $timeStamp);
+                    $result = json_decode($result, true);
+                } else {
+                    // 更新失败
+                    error_log('saron---保存物流号失败！更新失败--订单ID: ' . $order_id);
+                }
             }
         }
+
 
     } else {
         // 输出物流号为空的信息
