@@ -166,7 +166,7 @@ class By_Gateway extends WC_Payment_Gateway {
 //        wp_enqueue_script('custom-gallery2', 'https://cdn.checkout.com/js/framesv2.min.js');
         wp_enqueue_script('custom-forter', plugins_url('/asset/forter.js', __FILE__));
         wp_enqueue_script('custom-load', plugins_url('/asset/load.js', __FILE__), [], null, true);
-        wp_enqueue_script('custom-device-token', 'https://cdn.jsdelivr.net/npm/@beyounger/validator@0.0.3/dist/device.min.js', [], null, true);
+        wp_enqueue_script('custom-device-token', 'https://cdn.jsdelivr.net/npm/@beyounger/validator@0.0.3/dist/device.min.js', [], null, false);
 
         wp_localize_script( 'custom-forter', 'plugin_name_ajax_object',
             array(
