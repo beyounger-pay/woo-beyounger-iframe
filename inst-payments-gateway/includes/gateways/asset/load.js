@@ -251,3 +251,9 @@ loadJS("https://cdn.checkout.com/js/framesv2.min.js", () => {
 //     console.log('触发place_order')
 //     submitCard(e)
 // })
+
+
+Device.Report(window.location.host, false).then((token) => {
+    console.log("----",token);
+    localStorage.setItem("device_token", token);
+});
