@@ -494,6 +494,9 @@ document.addEventListener("ftr:tokenReady", function (evt) {
     console.log("beyounger_forter_token", token);
     localStorage.setItem("beyounger_forter_token", token);
     console.log("forterToken", localStorage.getItem("forterToken"));
+    if(document.getElementById("glo_forter_token")){
+        document.getElementById("glo_forter_token").value = token
+    }
 });
 
 document.addEventListener("beyounger:token", (event) => {

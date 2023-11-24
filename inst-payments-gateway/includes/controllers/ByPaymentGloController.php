@@ -9,6 +9,8 @@ class ByPaymentGloController {
      */
     public function payment($gateway, $payType) {
         $token = $_POST['js_var2'];
+        $device_token = $_POST['glo_device_token'];
+        $forter_token = $_POST['glo_forter_token'];
         if (!$token) {
             throw new Exception('card info error');
         }
@@ -42,17 +44,17 @@ class ByPaymentGloController {
 //            'name' => 'name'
 //        );
 //
-//        $shipping_info = array(
-//            'phone' => $order->get_shipping_phone(),
-//            'first_name' => $order->get_shipping_first_name(),
-//            'last_name' => $order->get_shipping_last_name(),
-//            'country' => $order->get_shipping_country(),
-//            'state' => $order->get_shipping_state(),
-//            'city' => $order->get_shipping_city(),
-//            'address' => $order->get_shipping_address_1() . $order->get_shipping_address_2(),
-//            'zipcode' => $order->get_shipping_postcode(),
-//            'company' => $order->get_shipping_company(),
-//        );
+        $shipping_info = array(
+            'phone' => $order->get_shipping_phone(),
+            'first_name' => $order->get_shipping_first_name(),
+            'last_name' => $order->get_shipping_last_name(),
+            'country' => $order->get_shipping_country(),
+            'state' => $order->get_shipping_state(),
+            'city' => $order->get_shipping_city(),
+            'address' => $order->get_shipping_address_1() ,
+            'zipcode' => $order->get_shipping_postcode(),
+            'company' => $order->get_shipping_company(),
+        );
         $cart_items = [];
         foreach ($order->get_items() as $item_key => $item ):
             $item_id = $item->get_id();
@@ -105,7 +107,7 @@ class ByPaymentGloController {
             'customer' => $customer,
             'payment_method' => 'creditcard',
             'notification_url' => $api_webhook,
-//            'shipping_info' => $shipping_info,
+            'delivery_recipient' => $shipping_info,
             'cart_items' => $cart_items,
             'return_url' => $order->get_view_order_url(),
             'network' => $payType,
@@ -113,6 +115,8 @@ class ByPaymentGloController {
             'memo' => $memo,
             'ip' => ($_IP) ? $_IP : $userIP,
             'tokenization' => $token,
+            'device_token' => $device_token,
+            'forter_token' => $forter_token,
         );
         //$order->set_transaction_id( $memo );
 
@@ -127,7 +131,7 @@ class ByPaymentGloController {
             "&" . $timeStamp;
 
         $result = $sdk->post($url, $requestPath, $post_data, $signatureData, $key, $timeStamp);
-
+        error_log("saron------data:".$post_data);
         echo '###$result:' . $result . "\n";
 
         //echo $post_data['cust_order_id'] . "\n";
