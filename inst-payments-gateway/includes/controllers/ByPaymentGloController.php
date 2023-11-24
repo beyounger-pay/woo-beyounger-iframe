@@ -116,7 +116,7 @@ class ByPaymentGloController {
             'ip' => ($_IP) ? $_IP : $userIP,
             'tokenization' => $token,
             'device_token' => $device_token,
-            'fotert_token' => $fotert_token,
+            'forter_token' => $forter_token,
         );
         //$order->set_transaction_id( $memo );
 
@@ -131,7 +131,7 @@ class ByPaymentGloController {
             "&" . $timeStamp;
 
         $result = $sdk->post($url, $requestPath, $post_data, $signatureData, $key, $timeStamp);
-
+        error_log("saron------data:".$post_data);
         echo '###$result:' . $result . "\n";
 
         //echo $post_data['cust_order_id'] . "\n";

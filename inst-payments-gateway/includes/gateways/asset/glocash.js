@@ -27,7 +27,7 @@ var submitData = (postData) =>{
   console.log('latest js_var2:',document.getElementById("js_var2").value);
   loading = true;
   const glo_device_token =  localStorage.getItem('device_token')
-  const glo_forter_token =  localStorage.getItem('forter_token')
+  const glo_forter_token =  localStorage.getItem('beyounger_forter_token')
   if(glo_device_token){
       document.getElementById("glo_device_token").value = glo_device_token
   }
