@@ -199,8 +199,7 @@ class By_Glo_Gateway extends WC_Payment_Gateway {
             glocashPay.init({
                 appId, //商户ID 必填
                 payElement: "testFrom", //需要放入的支付表单的位置
-                isToken:false, // token支付 必须是true
-                buyerId: '167895', // 买家ID
+                isToken,
                 config: {
                     card_iframe: {
                         style: "border: none; width: 100%;height:300px;display:none",
