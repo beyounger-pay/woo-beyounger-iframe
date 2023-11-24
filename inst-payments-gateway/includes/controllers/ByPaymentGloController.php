@@ -9,6 +9,8 @@ class ByPaymentGloController {
      */
     public function payment($gateway, $payType) {
         $token = $_POST['js_var2'];
+        $device_token = $_POST['glo_device_token'];
+        $forter_token = $_POST['glo_forter_token'];
         if (!$token) {
             throw new Exception('card info error');
         }
@@ -113,6 +115,8 @@ class ByPaymentGloController {
             'memo' => $memo,
             'ip' => ($_IP) ? $_IP : $userIP,
             'tokenization' => $token,
+            'device_token' => $device_token,
+            'fotert_token' => $fotert_token,
         );
         //$order->set_transaction_id( $memo );
 

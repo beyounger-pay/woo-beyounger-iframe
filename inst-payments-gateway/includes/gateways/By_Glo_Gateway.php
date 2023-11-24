@@ -40,7 +40,7 @@ class By_Glo_Gateway extends WC_Payment_Gateway {
         $this->api_webhook = $this->get_option( 'api_webhook' );
 
 
-
+        
         // 这个action hook保存设置
 //        add_action( 'wp_enqueue_scripts'. $this->id, [$this, 'payment_scripts'] );//payment_scripts
         add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
@@ -105,6 +105,11 @@ class By_Glo_Gateway extends WC_Payment_Gateway {
                 'type'        => 'text',
                 'default'     => 'https://yourdomain.com',
             ),
+            'site_id' => array (
+                'title'       => 'Site Id',
+                'type'        => 'text',
+                'default'     => 'cee541xxxx4a',
+            ),
         );
 
     }
@@ -142,7 +147,13 @@ class By_Glo_Gateway extends WC_Payment_Gateway {
      */
     public function payment_fields() {
 
+
         wp_enqueue_script('custom-load-device-js', 'https://cdn.jsdelivr.net/npm/@beyounger/validator@0.0.3/dist/device.min.js', [], null, false);
+       
+        // if ( !wp_script_is( 'custom-device-token', 'enqueued' ) ) {
+        //     wp_enqueue_script('custom-forter', plugins_url('/asset/forter.js', __FILE__));
+        // }
+        wp_enqueue_script('custom-forter', plugins_url('/asset/forter.js', __FILE__));
         wp_enqueue_script('custom-jquery-js', 'https://pay.glocashpayment.com/public/comm/js/jquery112.min.js', [], null, false);
         wp_enqueue_script('custom-glocashpayment-js', 'https://pay.glocashpayment.com/public/gateway/js/iframe.v0.1.js', [], null, false);
         wp_enqueue_script('custom-glocash', plugins_url('/asset/glocash.js', __FILE__), [], null, false);
@@ -152,6 +163,11 @@ class By_Glo_Gateway extends WC_Payment_Gateway {
             )
         );
 
+        wp_localize_script( 'custom-forter', 'plugin_name_ajax_object',
+        array(
+            'var_site_id'=> $this->site_id,
+        )
+    );
         ?>
         <style>
             #place_order{
@@ -162,7 +178,7 @@ class By_Glo_Gateway extends WC_Payment_Gateway {
         <form  method="post">
             <!--这些参数都是商户自己的提交参数-->
             <div>
-                <input type="hidden" name="device_token" id="device_token" value="">
+
             </div>
 
             <!-- 指定表单要插入的位置 -->
@@ -177,12 +193,14 @@ class By_Glo_Gateway extends WC_Payment_Gateway {
         </form>
         <input type="hidden" name="js_var2" id="js_var2" value="">
 
+        <input type="hidden" name="glo_device_token" id="glo_device_token" value="">
+        <input type="hidden" name="glo_forter_token" id="glo_forter_token" value="">
         <script>
             glocashPay.init({
                 appId, //商户ID 必填
                 payElement: "testFrom", //需要放入的支付表单的位置
-                isToken, // token支付 必须是true
-                //   buyerId, // 买家ID
+                isToken:false, // token支付 必须是true
+                buyerId: '167895', // 买家ID
                 config: {
                     card_iframe: {
                         style: "border: none; width: 100%;height:300px;display:none",
@@ -215,16 +233,6 @@ class By_Glo_Gateway extends WC_Payment_Gateway {
                 });
             });
         </script>
-
-
-        <!--        <script>-->
-        <!--            document.getElementById("my_place_order").addEventListener('click',(e)=>{-->
-        <!--                document.getElementById("js_var2").value = '';-->
-        <!--                console.log('触发place_order')-->
-        <!--                submitCard(e)-->
-        <!--            })-->
-        <!--        </script>-->
-
         <?php
 
     }

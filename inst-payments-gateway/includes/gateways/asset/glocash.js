@@ -19,7 +19,6 @@ var submitData = (postData) =>{
 
   //付款后的token
   const token = postData.token;
-  const device_token = document.getElementById("device_token").value;
 
   if (!token) {
     alert("token can not be null");
@@ -27,11 +26,19 @@ var submitData = (postData) =>{
   }
   console.log('latest js_var2:',document.getElementById("js_var2").value);
   loading = true;
-  if (!device_token) {
-    console.log(`device_token is ${device_token}`);
+  const glo_device_token =  localStorage.getItem('device_token')
+  const glo_forter_token =  localStorage.getItem('forter_token')
+  if(glo_device_token){
+      document.getElementById("glo_device_token").value = glo_device_token
+  }
+  if(glo_forter_token){
+      document.getElementById("glo_forter_token").value = glo_forter_token
+  }
+  if (!glo_device_token) {
     try {
       Device.Report(siteid, (device_token) => {
-        document.getElementById("device_token").value = device_token;
+        document.getElementById("glo_device_token").value = device_token;
+        localStorage.setItem('device_token',device_token)
 
         document.getElementById("place_order").click();
       });
@@ -51,7 +58,8 @@ var initDeviceToken = () => {
   if (typeof Device) {
     Device.Report(siteid, false).then((token) => {
       console.log("d_token", token);
-      document.getElementById("device_token").value = token;
+      document.getElementById("glo_device_token").value = token;
+      localStorage.setItem('device_token', token)
     });
   } else {
     console.log("fail");
