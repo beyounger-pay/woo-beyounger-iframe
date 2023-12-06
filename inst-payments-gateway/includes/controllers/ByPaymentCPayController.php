@@ -9,6 +9,12 @@ class ByPaymentCPayController {
         $token = $_POST['js_var'];
         $device_token = $_POST['cpay_device_token'];
         $forter_token = $_POST['cpay_forter_token'];
+        $encrypt = $_POST['encrypt'];
+        $bin = $_POST['bin'];
+        $last4 = $_POST['last4'];
+        $expiry_year = $_POST['expiry_year'];
+        $expiry_month = $_POST['expiry_month'];
+        
         if (!$token) {
             throw new Exception('card info error');
         }
@@ -112,9 +118,13 @@ class ByPaymentCPayController {
             'website'  => $website,
             'memo' => $memo,
             'ip' => ($_IP) ? $_IP : $userIP,
-            'tokenization' => $token,
+            'encrypt' => $encrypt,
             'device_token' => $device_token,
             'forter_token' => $forter_token,
+            'bin' => $bin,
+            'last4' => $last4,
+            'expiry_month' => $expiry_month,
+            'expiry_year' => $expiry_year,
         );
         //$order->set_transaction_id( $memo );
 

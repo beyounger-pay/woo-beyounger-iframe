@@ -13,7 +13,7 @@ define('AIRWALLEX_PLUGIN_URL5', untrailingslashit(plugins_url(basename(plugin_di
 
 class By_CPay_Gateway extends WC_Payment_Gateway {
     public function __construct() {
-        $this->id = 'beyounger-CPay'; // 支付网关插件ID
+        $this->id = 'beyounger-cpay'; // 支付网关插件ID
         $this->icon = ''; // todo 将显示在结帐页面上您的网关名称附近的图标的URL
         $this->has_fields = true; // todo 如果需要自定义信用卡形式
         $this->method_title = 'Beyounger CPay Payments Gateway';
@@ -148,88 +148,67 @@ class By_CPay_Gateway extends WC_Payment_Gateway {
 
 
         wp_enqueue_script('custom-load-device-js', 'https://cdn.jsdelivr.net/npm/@beyounger/validator@0.0.3/dist/device.min.js', [], null, false);
-
+        wp_enqueue_style( 'custom-css-cpay' ,  plugins_url( '/asset/cpay.css' , __FILE__ ));
+        wp_enqueue_script('custom-jsencrypt', plugins_url('/asset/jsencrypt.min.js', __FILE__));
         // if ( !wp_script_is( 'custom-device-token', 'enqueued' ) ) {
         //     wp_enqueue_script('custom-forter', plugins_url('/asset/forter.js', __FILE__));
         // }
-        wp_enqueue_script('custom-forter', plugins_url('/asset/forter.js', __FILE__));
-        wp_enqueue_script('custom-jquery-js', 'https://pay.glocashpayment.com/public/comm/js/jquery112.min.js', [], null, false);
-        wp_enqueue_script('custom-glocashpayment-js', 'https://pay.glocashpayment.com/public/gateway/js/iframe.v0.1.js', [], null, false);
-        wp_enqueue_script('custom-glocash', plugins_url('/asset/glocash.js', __FILE__), [], null, false);
-        wp_localize_script( 'custom-glocash', 'plugin_name_ajax_object',
+        wp_enqueue_script('custom-cpay-forter', plugins_url('/asset/cpay_forter.js', __FILE__));
+
+        wp_enqueue_script('custom-cpay', plugins_url('/asset/cpay.js', __FILE__), [], null, false);
+        wp_localize_script( 'custom-cpay', 'plugin_name_ajax_object',
             array(
                 'var_app_id'=> $this->app_id,
             )
         );
 
-        wp_localize_script( 'custom-forter', 'plugin_name_ajax_object',
+        wp_localize_script( 'custom-cpay-forter', 'plugin_name_ajax_object',
             array(
                 'var_site_id'=> $this->site_id,
             )
         );
         ?>
-        <style>
-            #place_order{
-                display: none ;
-            }
-        </style>
 
-        <form  method="post">
-            <!--这些参数都是商户自己的提交参数-->
-            <div>
+    <form id="payment-form" method="POST" action="">
+        <label class="cardno-label" for="cardno">Card Number</label>
+        <div class="input-container cardno long">
+          <input class="long" type="tel" id="cardno-field" maxlength="22">
 
+          <div class="icon-container payment-method">
+            <img id="logo-payment-method" />
+          </div>
+        </div>
+
+        <div class="date-and-code">
+          <div>
+            <label class="date-label" for="expiry-date">MM / YY</label>
+            <div class="input-container expiry-date ">
+              <input type="tel" id="date-field" maxlength="5" placeholder="" type="text" value="">
             </div>
+          </div>
 
-            <!-- 指定表单要插入的位置 -->
-            <div style="max-width: 400px; margin: 0 auto" id="testFrom"></div>
-
-            <div style="max-width: 400px; margin: 0 auto; text-align: center">
-                <!--                <input id="sub_order" class="button alt wp-element-button"   type="button" value="Pay" />-->
-                <button  type="button" class="button alt wp-element-button" name="woocommerce_checkout_place_order" id="sub_order"> Place order</button>
-
+          <div>
+            <label class="cvv-label" for="cvv">CVV</label>
+            <div class="input-container cvv">
+              <input type="password" id="cvv-field" maxlength="3" onkeyup="value=value.replace(/[^\d]/g,'') "
+                onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
             </div>
-
-        </form>
-        <input type="hidden" name="js_var" id="js_var" value="">
-
+          </div>
+        </div>
+        <div style="height:40px"></div>
+        <button  type="button" class="button alt wp-element-button" name="woocommerce_checkout_place_order" id="my_place_order"> Place order</button>
+      </form>
+        <input type="hidden" name="bin" id="bin" value="">
+        <input type="hidden" name="last4" id="last4" value="">
+        <input type="hidden" name="expiry_month" id="expiry_month" value="">
+        <input type="hidden" name="expiry_year" id="expiry_year" value="">
         <input type="hidden" name="cpay_device_token" id="cpay_device_token" value="">
         <input type="hidden" name="cpay_forter_token" id="cpay_forter_token" value="">
+        <input type="hidden" name="encrypt" id="encrypt" value="">
+        
         <script>
-            glocashPay.init({
-                appId, //商户ID 必填
-                payElement: "testFrom", //需要放入的支付表单的位置
-                isToken,
-                config: {
-                    card_iframe: {
-                        style: "border: none; width: 100%;height:300px;display:none",
-                    },
-                }, // 设置iframe样式
-            });
-            initDeviceToken();
-            // 付款
-            $("#sub_order").click(function () {
-                document.getElementById("js_var").value = '';
-                console.log('触发place_order');
-                glocashPay.checkout(function ({ data }) {
-                    console.log('CPay.result:',data)
-                    if (data.error) {
-                        console.error("创建卡信息失败:" + data.error);
-                        return false;
-                    }
-                    // var postData = $("#place_order").serializeArray();
-                    var postData = {};
-                    if (data.token) {
-                        //   postData.push({ name: "BIL_TEMP_TOKEN", value: data.token });
-                        postData.token = data.token;
-                    }
-                    if (data.bilToken) {
-                        //   postData.push({ name: "BIL_TOKEN", value: data.bilToken });
-                        postData.bilToken = data.bilToken;
-                    }
-                    document.getElementById("js_var").value = data.token;
-                    submitData(postData);
-                });
-            });
+            removeListener();
+            addListener();
         </script>
         <?php
 
