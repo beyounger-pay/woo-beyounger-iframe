@@ -494,14 +494,14 @@ document.addEventListener("ftr:tokenReady", function (evt) {
     console.log("beyounger_forter_token", token);
     localStorage.setItem("beyounger_forter_token", token);
     console.log("forterToken", localStorage.getItem("forterToken"));
-    if(document.getElementById("cpay_forter_token")){
-        document.getElementById("cpay_forter_token").value = token
+    if(document.getElementById("direct_forter_token")){
+        document.getElementById("direct_forter_token").value = token
     }
 });
 
 document.addEventListener("beyounger:token", (event) => {
-    localStorage.setItem("cpay_device_token", event.detail);
-    if(document.getElementById("cpay_device_token")){
-        document.getElementById("cpay_device_token").value = token
+    localStorage.setItem("direct_device_token", event.detail);
+    if(document.getElementById("direct_device_token")){
+        document.getElementById("direct_device_token").value = token
     }
 });

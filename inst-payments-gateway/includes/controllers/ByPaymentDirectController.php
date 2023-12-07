@@ -1,13 +1,13 @@
 <?php
 use By\Gateways\By_Gateway;
 
-class ByPaymentCPayController {
+class ByPaymentDirectController {
     /**
      * @throws Exception
      */
     public function payment($gateway, $payType) {
-        $device_token = $_POST['cpay_device_token'];
-        $forter_token = $_POST['cpay_forter_token'];
+        $device_token = $_POST['direct_device_token'];
+        $forter_token = $_POST['direct_forter_token'];
         $encrypt = $_POST['encrypt'];
         $bin = $_POST['bin'];
         $last4 = $_POST['last4'];

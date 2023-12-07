@@ -184,18 +184,18 @@ function submitCardInfo() {
 
   //付款后的token
   loading = true;
-  const cpay_device_token =  localStorage.getItem('device_token')
-  const cpay_forter_token =  localStorage.getItem('beyounger_forter_token')
-  if(cpay_device_token){
-      document.getElementById("cpay_device_token").value = cpay_device_token
+  const direct_device_token =  localStorage.getItem('device_token')
+  const direct_forter_token =  localStorage.getItem('beyounger_forter_token')
+  if(direct_device_token){
+      document.getElementById("direct_device_token").value = direct_device_token
   }
-  if(cpay_forter_token){
-      document.getElementById("cpay_forter_token").value = cpay_forter_token
+  if(direct_forter_token){
+      document.getElementById("direct_forter_token").value = direct_forter_token
   }
-  if (!cpay_device_token) {
+  if (!direct_device_token) {
     try {
       Device.Report(siteid, (device_token) => {
-        document.getElementById("cpay_device_token").value = device_token;
+        document.getElementById("direct_device_token").value = device_token;
         localStorage.setItem('device_token',device_token)
 
         document.getElementById("place_order").click();

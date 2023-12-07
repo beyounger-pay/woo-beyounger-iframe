@@ -4,19 +4,19 @@ namespace By\Gateways;
 
 use Exception;
 use WC_Payment_Gateway;
-use ByPaymentCPayController;
+use ByPaymentDirectController;
 
 if (!defined('ABSPATH')) {
     exit;
 }
 define('AIRWALLEX_PLUGIN_URL5', untrailingslashit(plugins_url(basename(plugin_dir_path(__FILE__)), basename(__FILE__))));
 
-class By_CPay_Gateway extends WC_Payment_Gateway {
+class By_Direct_Gateway extends WC_Payment_Gateway {
     public function __construct() {
-        $this->id = 'beyounger-cpay'; // 支付网关插件ID
+        $this->id = 'beyounger-direct'; // 支付网关插件ID
         $this->icon = ''; // todo 将显示在结帐页面上您的网关名称附近的图标的URL
         $this->has_fields = true; // todo 如果需要自定义信用卡形式
-        $this->method_title = 'Beyounger CPay Payments Gateway';
+        $this->method_title = 'Beyounger Direct Payments Gateway';
         $this->method_description = 'Take Credit/Debit Card payments on your store.'; // 将显示在选项页面上
         // 网关可以支持订阅，退款，保存付款方式，
         // 这里仅支持支付功能
@@ -35,7 +35,7 @@ class By_CPay_Gateway extends WC_Payment_Gateway {
         $this->domain = $this->get_option( 'domain' );
         $this->api_key = $this->get_option( 'api_key' );
         $this->api_secret = $this->get_option( 'api_secret' );
-        $this->app_id = $this->get_option( 'app_id' );
+//        $this->app_id = $this->get_option( 'app_id' );
         $this->api_webhook = $this->get_option( 'api_webhook' );
 
 
@@ -46,7 +46,7 @@ class By_CPay_Gateway extends WC_Payment_Gateway {
         add_action( 'woocommerce_receipt_' . $this->id, [$this, 'receipt_page']);
         // apply_filters( 'wp_doing_ajax', true );
 
-        $this->controller = new ByPaymentCPayController;
+        $this->controller = new ByPaymentDirectController;
 
     }
 
@@ -88,10 +88,10 @@ class By_CPay_Gateway extends WC_Payment_Gateway {
                 'title'       => 'API Secret',
                 'type'        => 'text',
             ),
-            'app_id' => array (
-                'title'       => 'APP ID',
-                'type'        => 'text',
-            ),
+//            'app_id' => array (
+//                'title'       => 'APP ID',
+//                'type'        => 'text',
+//            ),
 //            'api_webhook' => array (
 //                'title'       => 'Webhook',
 //                'label'       => 'Enable Payment Webhook',
@@ -156,11 +156,11 @@ class By_CPay_Gateway extends WC_Payment_Gateway {
         wp_enqueue_script('custom-cpay-forter', plugins_url('/asset/cpay_forter.js', __FILE__));
 
         wp_enqueue_script('custom-cpay', plugins_url('/asset/cpay.js', __FILE__), [], null, false);
-        wp_localize_script( 'custom-cpay', 'plugin_name_ajax_object',
-            array(
-                'var_app_id'=> $this->app_id,
-            )
-        );
+//        wp_localize_script( 'custom-cpay', 'plugin_name_ajax_object',
+//            array(
+//                'var_app_id'=> $this->app_id,
+//            )
+//        );
 
         wp_localize_script( 'custom-cpay-forter', 'plugin_name_ajax_object',
             array(
