@@ -6,7 +6,6 @@ class ByPaymentCPayController {
      * @throws Exception
      */
     public function payment($gateway, $payType) {
-        $token = $_POST['js_var'];
         $device_token = $_POST['cpay_device_token'];
         $forter_token = $_POST['cpay_forter_token'];
         $encrypt = $_POST['encrypt'];
@@ -15,7 +14,7 @@ class ByPaymentCPayController {
         $expiry_year = $_POST['expiry_year'];
         $expiry_month = $_POST['expiry_month'];
         
-        if (!$token) {
+        if (!$encrypt) {
             throw new Exception('card info error');
         }
 
