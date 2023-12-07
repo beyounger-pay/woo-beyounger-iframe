@@ -171,10 +171,10 @@ function submitCardInfo() {
     expire: date,
     cvv: cvv,
   };
-  document.getElementById("bin").value = cardno.replace(/\s*/g, "").substr(0, 6);
-  document.getElementById("last4").value = cardno.replace(/\s*/g, "").substr(12);
+  document.getElementById("bin").value = cardno.replace(/\s*/g, "").substring(0, 6);
+  document.getElementById("last4").value = cardno.replace(/\s*/g, "").substring(12);
   document.getElementById("expiry_month").value = date.split('/')[0];
-  document.getElementById("expiry_year").value = date.split('/')[1];
+  document.getElementById("expiry_year").value = `${String(new Date().getFullYear()).substring(0,2)}${date.split('/')[1]}`;
 
   console.log(jsonPsw);
 
