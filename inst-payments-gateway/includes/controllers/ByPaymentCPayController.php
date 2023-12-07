@@ -138,8 +138,8 @@ class ByPaymentCPayController {
             "&" . $timeStamp;
 
         $result = $sdk->post($url, $requestPath, $post_data, $signatureData, $key, $timeStamp);
-        error_log("saron------data:".$post_data);
-        echo '###$result:' . $result . "\n";
+//        error_log("saron------data:".$post_data);
+//        echo '###$result:' . $result . "\n";
 
         //echo $post_data['cust_order_id'] . "\n";
 //        echo json_encode($order). "=====\n";;
