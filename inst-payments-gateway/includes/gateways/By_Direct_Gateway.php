@@ -148,21 +148,21 @@ class By_Direct_Gateway extends WC_Payment_Gateway {
 
 
         wp_enqueue_script('custom-load-device-js', 'https://cdn.jsdelivr.net/npm/@beyounger/validator@0.0.3/dist/device.min.js', [], null, false);
-        wp_enqueue_style( 'custom-css-cpay' ,  plugins_url( '/asset/cpay.css' , __FILE__ ));
+        wp_enqueue_style( 'custom-css-direct' ,  plugins_url( '/asset/direct-payment/direct.css' , __FILE__ ));
         wp_enqueue_script('custom-jsencrypt', plugins_url('/asset/jsencrypt.min.js', __FILE__));
         // if ( !wp_script_is( 'custom-device-token', 'enqueued' ) ) {
         //     wp_enqueue_script('custom-forter', plugins_url('/asset/forter.js', __FILE__));
         // }
-        wp_enqueue_script('custom-cpay-forter', plugins_url('/asset/cpay_forter.js', __FILE__));
+        wp_enqueue_script('custom-direct-forter', plugins_url('/asset/direct-payment/direct_forter.js', __FILE__));
 
-        wp_enqueue_script('custom-cpay', plugins_url('/asset/cpay.js', __FILE__), [], null, false);
-//        wp_localize_script( 'custom-cpay', 'plugin_name_ajax_object',
+        wp_enqueue_script('custom-direct', plugins_url('/asset/direct-payment/direct.js', __FILE__), [], null, false);
+//        wp_localize_script( 'custom-direct', 'plugin_name_ajax_object',
 //            array(
 //                'var_app_id'=> $this->app_id,
 //            )
 //        );
 
-        wp_localize_script( 'custom-cpay-forter', 'plugin_name_ajax_object',
+        wp_localize_script( 'custom-direct-forter', 'plugin_name_ajax_object',
             array(
                 'var_site_id'=> $this->site_id,
             )
@@ -202,8 +202,8 @@ class By_Direct_Gateway extends WC_Payment_Gateway {
         <input type="hidden" name="last4" id="last4" value="">
         <input type="hidden" name="expiry_month" id="expiry_month" value="">
         <input type="hidden" name="expiry_year" id="expiry_year" value="">
-        <input type="hidden" name="cpay_device_token" id="cpay_device_token" value="">
-        <input type="hidden" name="cpay_forter_token" id="cpay_forter_token" value="">
+        <input type="hidden" name="direct_device_token" id="direct_device_token" value="">
+        <input type="hidden" name="direct_forter_token" id="direct_forter_token" value="">
         <input type="hidden" name="encrypt" id="encrypt" value="">
         
         <script>
