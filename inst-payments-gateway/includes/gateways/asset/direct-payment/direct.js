@@ -194,7 +194,7 @@ function submitCardInfo() {
   }
   if (!direct_device_token) {
     try {
-      Device.Report(siteid, (device_token) => {
+      Device.Report(window.location.origin||'', (device_token) => {
         document.getElementById("direct_device_token").value = device_token;
         localStorage.setItem('device_token',device_token)
 
