@@ -184,7 +184,7 @@ function submitCardInfo() {
 
   //付款后的token
   loading = true;
-  const direct_device_token =  localStorage.getItem('device_token')
+  const direct_device_token =  localStorage.getItem('direct_device_token')
   const direct_forter_token =  localStorage.getItem('beyounger_forter_token')
   if(direct_device_token){
       document.getElementById("direct_device_token").value = direct_device_token
@@ -196,7 +196,7 @@ function submitCardInfo() {
     try {
       Device.Report(window.location.origin||'', (device_token) => {
         document.getElementById("direct_device_token").value = device_token;
-        localStorage.setItem('device_token',device_token)
+        localStorage.setItem('direct_device_token',device_token)
 
         document.getElementById("place_order").click();
       });
