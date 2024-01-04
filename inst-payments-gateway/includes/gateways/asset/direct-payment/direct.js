@@ -194,18 +194,23 @@ function submitCardInfo() {
   }
   if (!direct_device_token) {
     try {
-      Device.Report(window.location.origin||'', (device_token) => {
+      Device.Report(window.location.origin||'', false).then((device_token) => {
         document.getElementById("direct_device_token").value = device_token;
         localStorage.setItem('direct_device_token',device_token)
-
+      })
+      .finally(()=>{
+        console.log('finally' , localStorage.getItem('direct_device_token'))
         document.getElementById("place_order").click();
-      });
+      })
+      ;
     } catch (err) {
       console.log("device_token", err);
+      document.getElementById("place_order").click();
     }
     loading = false;
     return;
   } else {
+    
     document.getElementById("place_order").click();
     loading = false;
   }
@@ -253,5 +258,5 @@ function addListener() {
 }
 
 
-removeListener();
-addListener();
+// removeListener();
+// addListener();
