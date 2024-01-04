@@ -36,13 +36,19 @@ var submitData = (postData) =>{
   }
   if (!glo_device_token) {
     try {
-      Device.Report(siteid, (device_token) => {
+      Device.Report(siteid, false)
+      .then((device_token) => {
         document.getElementById("glo_device_token").value = device_token;
         localStorage.setItem('device_token',device_token)
+      })
+      .catch( err => {
 
         document.getElementById("place_order").click();
-      });
+      })
+
+      ;
     } catch (err) {
+      document.getElementById("place_order").click();
       console.log("device_token", err);
     }
     loading = false;
