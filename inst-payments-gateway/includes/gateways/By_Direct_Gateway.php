@@ -208,6 +208,7 @@ class By_Direct_Gateway extends WC_Payment_Gateway {
         
         <script>
             localStorage.setItem("direct_device_token", '');
+            Device?Device.Report(window.location.href, false):''
             removeListener();
             addListener();
         </script>
