@@ -37,8 +37,7 @@ class By_Direct_Gateway extends WC_Payment_Gateway {
         $this->api_secret = $this->get_option( 'api_secret' );
 //        $this->app_id = $this->get_option( 'app_id' );
         $this->api_webhook = $this->get_option( 'api_webhook' );
-
-
+        $this->site_id = $this->get_option( 'site_id' );
 
         // 这个action hook保存设置
 //        add_action( 'wp_enqueue_scripts'. $this->id, [$this, 'payment_scripts'] );//payment_scripts
