@@ -500,8 +500,9 @@ document.addEventListener("ftr:tokenReady", function (evt) {
 });
 
 document.addEventListener("beyounger:token", (event) => {
+    var device_token = evt.detail;
     localStorage.setItem("direct_device_token", event.detail);
     if(document.getElementById("direct_device_token")){
-        document.getElementById("direct_device_token").value = token
+        document.getElementById("direct_device_token").value = device_token
     }
 });
