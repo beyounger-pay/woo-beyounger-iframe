@@ -14,7 +14,7 @@ define('AIRWALLEX_PLUGIN_URL6', untrailingslashit(plugins_url(basename(plugin_di
 class By_TPay_Gateway extends WC_Payment_Gateway {
 
     public function __construct() {
-        $this->id = 'beyounger-redirect'; // 支付网关插件ID
+        $this->id = 'beyounger-TPay'; // 支付网关插件ID
         $this->icon = ''; // todo 将显示在结帐页面上您的网关名称附近的图标的URL
         $this->has_fields = true; // todo 如果需要自定义信用卡形式
         $this->method_title = 'Beyounger Payments TPay Gateway';
@@ -98,13 +98,13 @@ class By_TPay_Gateway extends WC_Payment_Gateway {
                 'type'        => 'text',
                 'default'     => 'https://yourdomain.com',
             ),
-            'iframe' => array (
-                'title'       => 'Iframe',
-                'label'       => 'Enable Beyounger Payment Iframe',
-                'type'        => 'checkbox',
-                'description' => 'If use iframe, page will be displayed as an iframe on the receipt_page of woo.',
-                'default'     => 'no',
-            ),
+//            'iframe' => array (
+//                'title'       => 'Iframe',
+//                'label'       => 'Enable Beyounger Payment Iframe',
+//                'type'        => 'checkbox',
+//                'description' => 'If use iframe, page will be displayed as an iframe on the receipt_page of woo.',
+//                'default'     => 'no',
+//            ),
         );
     }
 
