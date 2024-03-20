@@ -40,7 +40,7 @@ class By_TPay_Gateway extends WC_Payment_Gateway {
         //$this->iframe = $this->get_option( 'iframe' );
 
         // 这个action hook保存设置
-//        add_action( 'wp_enqueue_scripts'. $this->id, [$this, 'payment_scripts'] );//payment_scripts
+        add_action( 'wp_enqueue_scripts'. $this->id, [$this, 'payment_scripts'] );//payment_scripts
         add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
         add_action( 'woocommerce_receipt_' . $this->id, [$this, 'receipt_page']);
         //add_action( 'woocommerce_checkout_order_processed', 'is_express_delivery',  1, 1  );
@@ -132,11 +132,14 @@ class By_TPay_Gateway extends WC_Payment_Gateway {
     {
         // wp_enqueue_style( 'custom-css' ,  plugins_url( '/asset/style.css' , __FILE__ ));
 
-        wp_enqueue_script('custom-load-tpay', plugins_url('/asset/tapy2.js', __FILE__), [], null, false);
+        wp_enqueue_script('tpay-js', plugins_url('/asset/tpay/tpay.js', __FILE__), [], null, false);
         $orderId = get_post_meta($order_id, 'orderNo', true);
 
-        wp_localize_script( 'custom-load-tpay', 'plugin_name_ajax_object',
-            array( 'var_order_id'=> $orderId,)
+        wp_localize_script('tpay-js', 'plugin_name_ajax_object',
+            array(
+                'var_base_url'=> $this->domain,
+                'var_order_id'=> $orderId,
+            )
         );
 
 
@@ -149,7 +152,7 @@ class By_TPay_Gateway extends WC_Payment_Gateway {
                 </div>
             </body>
             <script type="text/javascript" >
-                console.log('var_order_id', var_order_id||111)
+                // console.log('var_order_id', var_order_id||111)
                 // initTPay(var_order_id)
             </script>
         <?php
@@ -162,8 +165,6 @@ class By_TPay_Gateway extends WC_Payment_Gateway {
      * 自定义信用卡表格
      */
     public function payment_fields() {
-
-
     }
 
     /*

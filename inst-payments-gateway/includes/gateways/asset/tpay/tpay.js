@@ -1,8 +1,10 @@
 
 console.log('===var_order_id===', plugin_name_ajax_object.var_order_id);
-var orderId = plugin_name_ajax_object.var_order_id || 'c24031906431212035642';
-console.log('var_order_id', orderId);
-console.log('plugin_name_ajax_object', plugin_name_ajax_object);
+console.log('===var_base_url===', plugin_name_ajax_object.var_base_url);
+
+var orderId = plugin_name_ajax_object.var_order_id;
+var baseUrl = plugin_name_ajax_object.var_base_url || "https://api.beyounger.com"; //线上地址
+
 
 (function () {
     try {
@@ -34,7 +36,6 @@ console.log('plugin_name_ajax_object', plugin_name_ajax_object);
                 console.log("orderId 为空")
                 return ;
             }
-            const baseUrl = "https://api-sandbox.beyounger.com"; //线上地址
             const publicKeyUrl = `${baseUrl}/v1/checkout?id=${orderId}`;
             const method = "card"
             const layout = "two-rows" //"three-rows"
@@ -223,5 +224,3 @@ console.log('plugin_name_ajax_object', plugin_name_ajax_object);
       console.log(e)
     }
 })()
-  
-console.log('load')
