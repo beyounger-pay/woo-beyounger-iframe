@@ -25,7 +25,7 @@ class ByPaymentTPayController {
             'first_name' => $order->get_billing_first_name(),
             'last_name' => $order->get_billing_last_name(),
             'country' => $order->get_billing_country(),
-            'state' => $order->get_billing_city(),
+            'state' => $order->get_billing_state(),
             'city' => $order->get_billing_city(),
             'address' => $order->get_billing_address_1(),
             'zipcode' => $order->get_billing_postcode(),
