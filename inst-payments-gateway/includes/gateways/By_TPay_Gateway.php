@@ -130,23 +130,9 @@ class By_TPay_Gateway extends WC_Payment_Gateway {
 
     public function receipt_page($order_id)
     {
-        wp_enqueue_style( 'custom-css' ,  plugins_url( '/asset/style.css' , __FILE__ ));
+        // wp_enqueue_style( 'custom-css' ,  plugins_url( '/asset/style.css' , __FILE__ ));
 
-
-        wp_enqueue_style( 'custom-css1' ,  plugins_url( '/asset/apg-payment-sdk/assets/styles/paymentForm.css' , __FILE__ ));
-        wp_enqueue_style( 'custom-css2' ,  plugins_url( '/asset/apg-payment-sdk/assets/styles/paymentGlobal.css' , __FILE__ ));
-        wp_enqueue_style( 'custom-css3' ,  plugins_url( '/asset/apg-payment-sdk/fonts/iconfont.css' , __FILE__ ));
-        wp_enqueue_style( 'custom-css4' ,  plugins_url( '/asset/apg.css' , __FILE__ ));
-
-        wp_enqueue_script('custom-load2', plugins_url('/asset/apg-payment-sdk/paymentInline-other.min.js', __FILE__), [], null, false);
-
-        wp_enqueue_script('e-1', 'https://cdn.bootcdn.net/ajax/libs/js-sha512/0.8.0/sha512.min.js', [], null, false);
-        wp_enqueue_script('e-2', 'https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js', [], null, false);
-        wp_enqueue_script('e-3', 'https://cdn.bootcdn.net/ajax/libs/axios/0.27.2/axios.min.js', [], null, false);
-        wp_enqueue_script('e-4', 'https://cdn.bootcdn.net/ajax/libs/jsencrypt/3.2.1/jsencrypt.min.js', [], null, false);
-        wp_enqueue_script('e-5', 'https://cdn.bootcdn.net/ajax/libs/js-sha256/0.9.0/sha256.min.js', [], null, false);
-        wp_enqueue_script('e-6', 'https://cdn.bootcdn.net/ajax/libs/crypto-js/4.1.1/crypto-js.min.js', [], null, false);
-        wp_enqueue_script('custom-load', plugins_url('/asset/load-apg.js', __FILE__), [], null, false);
+        wp_enqueue_script('custom-load', plugins_url('/asset/tapy.js', __FILE__), [], null, false);
         $orderId = get_post_meta($order_id, 'orderNo', true);
 
         wp_localize_script( 'custom-load', 'plugin_name_ajax_object',
@@ -158,37 +144,14 @@ class By_TPay_Gateway extends WC_Payment_Gateway {
 
         ?>
             <body>
-            <div class="currencyContainer">
-                <div style="background-color: #fff">
-                    <div class="payContent"></div>
-
-                    <button class="pay-button" type="button" onclick="submitCardApg(event)">Pay</button>
+                <div class="currencyContainer">
+                    <div id="tz-checkout"></div>
                 </div>
-            </div>
             </body>
             <script type="text/javascript" >
-                getTradeIDMethod().then((jsonStr) => {
-                    console.log('jsonStr',jsonStr);
-                    // console.log('payInit',payInit)
-                    console.log('pay-button', document.querySelector('.pay-button'))
-                    console.log('payContent', document.querySelector('.payContent'))
-                    if(!jsonStr["tradeId"]){
-                        console.log('tradeId is empty')
-                        return
-                    }
-                    payInit({
-                        tradeId: jsonStr["tradeId"],
-                        userElement: "payContent",
-                        url: jsonStr["action"],
-                        buttonName: "pay-button",
-                    });
-                }).catch(()=>{
-                    alert('tradeId can not be empty');
-                });
+                console.log('var_order_id', var_order_id)
+                initTPay(var_order_id)
             </script>
-
-
-
         <?php
 
 
