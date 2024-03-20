@@ -132,10 +132,10 @@ class By_TPay_Gateway extends WC_Payment_Gateway {
     {
         // wp_enqueue_style( 'custom-css' ,  plugins_url( '/asset/style.css' , __FILE__ ));
 
-        wp_enqueue_script('custom-load', plugins_url('/asset/tapy.js', __FILE__), [], null, false);
+        wp_enqueue_script('custom-load-tpay', plugins_url('/asset/tapy2.js', __FILE__), [], null, false);
         $orderId = get_post_meta($order_id, 'orderNo', true);
 
-        wp_localize_script( 'custom-load', 'plugin_name_ajax_object',
+        wp_localize_script( 'custom-load-tpay', 'plugin_name_ajax_object',
             array( 'var_order_id'=> $orderId,)
         );
 
@@ -149,8 +149,8 @@ class By_TPay_Gateway extends WC_Payment_Gateway {
                 </div>
             </body>
             <script type="text/javascript" >
-                console.log('var_order_id', var_order_id)
-                initTPay(var_order_id)
+                console.log('var_order_id', var_order_id||111)
+                // initTPay(var_order_id)
             </script>
         <?php
 

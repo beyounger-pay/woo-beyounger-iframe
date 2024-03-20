@@ -1,7 +1,10 @@
-var var_order_id = plugin_name_ajax_object.var_order_id;
-console.log('var_order_id', var_order_id)
-console.log('plugin_name_ajax_object', plugin_name_ajax_object)
-;(function () {
+
+console.log('===var_order_id===', plugin_name_ajax_object.var_order_id);
+var orderId = plugin_name_ajax_object.var_order_id || 'c24031906431212035642';
+console.log('var_order_id', orderId);
+console.log('plugin_name_ajax_object', plugin_name_ajax_object);
+
+(function () {
     try {
         function loadTpayJS(url, callback){
             var script = document.createElement('script');
@@ -25,10 +28,8 @@ console.log('plugin_name_ajax_object', plugin_name_ajax_object)
             script.src = url;
             document.getElementsByTagName('head')[0].appendChild(script);
         }
-        function initTPay() {
-            var orderId = var_order_id
-            console.log(var_order_id)
-            console.log(orderId)
+        function initTPay(id) {
+            orderId = orderId || id
             if(!orderId){
                 console.log("orderId 为空")
                 return ;
@@ -215,9 +216,12 @@ console.log('plugin_name_ajax_object', plugin_name_ajax_object)
         }
 
         window.initTPay = initTPay
+        initTPay();
   
     } catch (e) {
       // Fail quietly
+      console.log(e)
     }
-  })()
+})()
   
+console.log('load')
