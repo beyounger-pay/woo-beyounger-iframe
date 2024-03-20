@@ -33,7 +33,7 @@ console.log('plugin_name_ajax_object', plugin_name_ajax_object)
                 console.log("orderId 为空")
                 return ;
             }
-            const baseUrl = "https://api.beyounger.com"; //线上地址
+            const baseUrl = "https://api-sandbox.beyounger.com"; //线上地址
             const publicKeyUrl = `${baseUrl}/v1/checkout?id=${orderId}`;
             const method = "card"
             const layout = "two-rows" //"three-rows"
