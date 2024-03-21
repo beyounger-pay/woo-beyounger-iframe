@@ -7,6 +7,7 @@ use By\Gateways\By_Apg_Gateway;
 use By\Gateways\By_Redirect_Gateway;
 use By\Gateways\By_Glo_Gateway;
 use By\Gateways\By_Direct_Gateway;
+use By\Gateways\By_TPay_Gateway;
 use ByPaymentRedirectController;
 
 
@@ -46,6 +47,7 @@ class Main
         $gateways[] = By_Redirect_Gateway::class;
         $gateways[] = By_Glo_Gateway::class;
         $gateways[] = By_Direct_Gateway::class;
+        $gateways[] = By_TPay_Gateway::class;
         return $gateways;
     }
 }
